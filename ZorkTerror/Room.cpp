@@ -6,9 +6,10 @@ Room::Room()
 {
 }
 
-Room::Room(const string & name, const string & description) :
+Room::Room(const string & name, const string & description, const string &hidingSpot) :
 	Entity(name,description,NULL)
 {
+	this->hidingSpot = hidingSpot;
 	type = ROOM;
 }
 
@@ -27,7 +28,7 @@ void Room::Look() const
 	{
 		if (entity->getType() == EXIT)
 		{
-			Exit *ex = static_cast<Exit*>(entity);
+			Exit *ex = (Exit*) entity;
 			string descrip = ex->GetDescription(this);
 			if(!descrip.empty()) cout <<descrip<< endl;
 		}

@@ -18,5 +18,11 @@ public:
 	void Read(const vector<string> &args) const;
 	void Open(const vector<string> &args) const;
 	void Close(const vector<string> &args) const;
+	void Inventory() const;
+	void Turn(const vector<string> &args) const;
+	void Hide();
+	void Reveal();
+
+	bool isHiding=false;
 };
 

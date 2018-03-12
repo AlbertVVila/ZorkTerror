@@ -61,6 +61,21 @@ Entity* Entity::findByName(const string & name) const
 	return NULL;
 }
 
+Entity * Entity::findEveryWhere(const string & name) const //recursivament busca 
+{
+	for (auto &entity : contains)
+	{
+		Entity *child = entity->findEveryWhere(name);
+		if (child != NULL) return child;
+
+		if (entity->name == name)
+		{
+			return entity;
+		}
+	}
+	return NULL;
+}
+
 void Entity::Update()
 {
 }

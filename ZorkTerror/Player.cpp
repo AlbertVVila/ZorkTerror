@@ -33,7 +33,7 @@ void Player::Go(const vector<string>& args)
 
 	if(exit == NULL)
 	{
-		cout << "No se puede ir en esa dirección" << endl;
+		cout << WRONG_DIRECTION << endl;
 	}
 	else
 	{
@@ -45,18 +45,20 @@ void Player::Go(const vector<string>& args)
 void Player::Take(const vector<string>& args)
 {
 	Item * item;
+	Entity * p;
 	switch(args.size())
 	{
 	case 2:
-		item = (Item*) GetRoom()->findByName(args[1]);
-		if (item != NULL)
-		{
-			item->ChangeParent(this);
-			cout << "Elemento cogido" << endl;
-		}
+		item = (Item*) GetRoom()->findEveryWhere(args[1]);
+		p = item->parent;
+		if (item == NULL) cout << ITEM_NOTFOUND << endl;
+		else if (p == this) cout << ITEM_ALREADY_TAKEN << endl;
+		else if (((Item*)p)->itemtype!=NULL && ((Item*)p)->itemstate == CLOSED) cout << CONTAINER_CLOSED << endl;
+		else if (item->itemtype == CONTAINER) cout << ITEM_NOTTAKEABLE << endl;
 		else
 		{
-			cout << ITEM_NOTFOUND << endl;
+			item->ChangeParent(this);
+			cout << ITEM_TAKEN << endl;
 		}
 		break;
 	default:
@@ -74,7 +76,7 @@ void Player::Drop(const vector<string>& args)
 		if (item != NULL)
 		{
 			item->ChangeParent(GetRoom());
-			cout << "Elemento tirado." << endl;
+			cout << ITEM_DROPPED << endl;
 		}
 		else
 		{
@@ -93,12 +95,13 @@ void Player::Put(const vector<string>& args)
 	{
 	case 4:
 		containee = (Item*)this->findByName(args[1]);
-		if (containee == NULL) cout << ITEM_NOTFOUND << endl;
+		if (containee == NULL) cout << ITEM_NOTFOUND_ININVENTORY << endl;
 		else if(args[2] == "in")
 		{
 			container = (Container*)GetRoom()->findByName(args[3]);
 			if (container == NULL) cout << CONTAINER_NOTFOUND << endl;
 			else if (container->itemtype != CONTAINER) cout << ITEM_NOTCONTAINABLE << endl;
+			else if (container->itemstate == CLOSED) cout << ITEM_ISCLOSED << endl;
 			else
 			{
 				containee->ChangeParent(container);
@@ -140,7 +143,6 @@ void Player::Open(const vector<string>& args) const
 			cout << ITEM_OPENED << endl;
 			item->itemstate = OPENED;
 		}
-
 		break;
 	}
 }
@@ -160,7 +162,85 @@ void Player::Close(const vector<string>& args) const
 			cout << ITEM_CLOSED << endl;
 			item->itemstate = CLOSED;
 		}
-
 		break;
+	}
+}
+
+void Player::Inventory() const
+{
+	if (contains.size() > 0)
+	{
+		cout << INVENTORY << endl;
+		for (auto &entity : contains)
+		{
+			cout << entity->name << endl;
+		}
+	}
+	else cout << EMPTY_INVENTORY << endl;
+}
+
+void Player::Turn(const vector<string>& args) const
+{
+	Lightable *item;
+	switch (args.size())
+	{
+	case 3:
+		if (args[1] == "on")
+		{
+			item = (Lightable*)this->findByName(args[2]); //mirar a zork com funciona
+			if (item == NULL) cout << ITEM_NOTFOUND << endl;
+			else if (item->itemtype != LIGHTABLE) cout << ITEM_NOT_LIGHTABLE << endl;
+			else if (item->itemswitch == ON) cout << ITEM_ALREADY_ON << endl;	
+			else if (item->itemswitch == OFF)
+			{
+				item->itemswitch = ON;
+				cout << ITEM_ON << endl;
+			}
+		}
+		else if (args[1] == "off")
+		{
+			item = (Lightable *)this->findByName(args[2]); //mirar a zork com funciona
+			if (item == NULL) cout << ITEM_NOTFOUND << endl;
+			else if (item->itemtype != LIGHTABLE) cout << ITEM_NOT_LIGHTABLE << endl;
+			else if (item->itemswitch == OFF) cout << ITEM_ALREADY_OFF << endl;
+			else if (item->itemswitch == ON)
+			{
+				item->itemswitch = OFF;
+				cout << ITEM_OFF << endl;
+			}
+		}
+		break;
+	}
+}
+
+void Player::Hide()
+{
+	Room *room = GetRoom();
+	if (this->isHiding)
+	{
+		cout << ALREADY_HIDING << endl;
+	}
+	else if (room->hidingSpot.empty())
+	{
+		cout << CANNOT_HIDE << endl;
+	}
+	else
+	{
+		this->isHiding = true;
+		cout << room->hidingSpot << endl;
+	}
+}
+
+void Player::Reveal()
+{
+	Room *room = GetRoom();
+	if (!this->isHiding)
+	{
+		cout << ALREADY_REVEALED << endl;
+	}
+	else
+	{
+		this->isHiding = false;
+		cout << REVEALED << endl;
 	}
 }

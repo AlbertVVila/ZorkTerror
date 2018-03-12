@@ -10,7 +10,7 @@ Item::Item(const string & name, const string & description, Entity * parent):
 	Entity(name,description,parent)
 {
 	type = ITEM;
-	if (this->itemstate == NULL) this->itemstate = NONE;
+	if (itemstate == NULL) itemstate = NONE;
 }
 
 

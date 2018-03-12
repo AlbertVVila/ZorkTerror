@@ -12,14 +12,14 @@ World::World()
 {
 	//Create rooms
 	Room *bedroom = new Room("Habitación principal", "Estás en la habitación principal."
-		" Hay polvo en la cama, parece que nadie ha dormido allí en meses.");
+		" Hay polvo en la cama, parece que nadie ha dormido allí en meses.", "Te escondes debajo de la cama, nadie te puede ver.");
 	Room *corridor = new Room("Pasillo", "Estás en un pasillo oscuro. La madera se estremece "
 		"cada vez que das un paso.");
 	Room *livingRoom = new Room("Sala de estar", "Estás en la sala de estar. Entra un poco de luz por la ventana"
-		"parece que está anocheciendo.");
-	Room *kitchen = new Room("Cocina","Estás en la cocina. Está todo desordenado.");
+		"parece que está anocheciendo.","Te escondes detrás del sofá, esperemos que nadie mire aquí.");
+	Room *kitchen = new Room("Cocina","Estás en la cocina. Está todo desordenado.","Te escondes dentro de un armario.");
 	Room *gameRoom = new Room("Sala de juegos", "Estás en la sala de juegos, hay un billar y una mesa con dos sillas"
-		", con una partida de ajedrez a medias.");
+		", con una partida de ajedrez a medias.", "Debajo del billar parece un buen sitio, te quedas allí en silencio.");
 	Room *biblio = new Room("Biblioteca", "Parece una biblioteca, hay una estanteria muy grande con muchos libros, algunos estan por el suelo.");
 	Room *out = new Room("Salida", "¡Has salido de la casa, eres libre!¡Corre Forest, corre!");
 	//AddRooms
@@ -51,11 +51,13 @@ World::World()
 
 	//AddItems
 
-	Item *mailBox = new Readable("Carta", "Hay una pequeña carta en el borde de la cama.", bedroom, "¡Bienvenido al Zork Terror!\nTendrás "
+	Readable *mailBox = new Readable("Carta", "Hay una pequeña carta en el borde de la cama.", bedroom, "¡Bienvenido al Zork Terror!\nTendrás "
 	"que intentar escapar de esta casa sin que te coma el horrible monstruo que acecha en la oscuridad...");
-	Item *baul = new Container("Baul", "En la esquina de la habitación hay un baúl.", bedroom);
+	Container *baul = new Container("Baul", "En la esquina de la habitación hay un baúl.", bedroom);
+	Lightable *lamp = new Lightable("Lamp", "Hay una lámpara en la mesita al lado de la cama.", bedroom);
 	entities.push_back(mailBox);
 	entities.push_back(baul);
+	entities.push_back(lamp);
 	//Create player
  	player = new Player("Player", "¡Eres muy valiente y no temes la oscuridad!", bedroom);
 	entities.push_back(player);
@@ -76,6 +78,18 @@ bool World::GetInput(const vector<string>& args)
 		if (args[0] == "look")
 		{
 			player->Look(args);
+		}
+		else if (args[0] == "inventory")
+		{
+			player->Inventory();
+		}
+		else if (args[0] == "hide")
+		{
+			player->Hide();
+		}
+		else if (args[0] == "reveal")
+		{
+			player->Reveal();
 		}
 		else understand = false;
 		break;
@@ -103,6 +117,13 @@ bool World::GetInput(const vector<string>& args)
 		else if (args[0] == "close")
 		{
 			player->Close(args);
+		}
+		else understand = false;
+		break;
+	case 3:
+		if (args[0] == "turn")
+		{
+			player->Turn(args);
 		}
 		else understand = false;
 		break;

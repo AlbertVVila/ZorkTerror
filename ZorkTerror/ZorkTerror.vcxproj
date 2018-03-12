@@ -154,6 +154,7 @@
     <ClInclude Include="globals.h" />
     <ClInclude Include="Grue.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="Lightable.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Readable.h" />
     <ClInclude Include="Room.h" />
@@ -170,6 +171,7 @@
     <ClCompile Include="globals.cpp" />
     <ClCompile Include="Grue.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="Lightable.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Readable.cpp" />
     <ClCompile Include="Room.cpp" />

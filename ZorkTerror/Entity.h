@@ -21,6 +21,8 @@ public:
 	virtual void Look() const;
 	void ChangeParent(Entity* newParent);
 	Entity* findByName(const string &name) const;
+	Entity* findEveryWhere(const string &name) const;
+
 	virtual void Update();
 private:
 

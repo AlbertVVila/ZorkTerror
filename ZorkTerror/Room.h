@@ -7,11 +7,13 @@ class Room :
 {
 public:
 	Room();
-	Room(const string &name, const string &description);
+	Room(const string &name, const string &description, const string &hidingSpot= "");
 	~Room();
 
 	void Look() const;
 	Exit* GetExit(const string &dir) const;
+
+	string hidingSpot;
 private:
 
 };

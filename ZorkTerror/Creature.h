@@ -4,6 +4,7 @@
 #include "Item.h"
 #include "Container.h"
 #include "Readable.h"
+#include "Lightable.h"
 class Creature :
 	public Entity
 {
