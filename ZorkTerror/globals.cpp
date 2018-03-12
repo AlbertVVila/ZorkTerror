@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "globals.h"
 #include <iostream>
+
 using namespace std;
+
 
 void ParseInput(string input, vector<string> &args)
 {

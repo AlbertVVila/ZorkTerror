@@ -49,6 +49,18 @@ void Entity::ChangeParent(Entity* newParent)
 
 }
 
+Entity* Entity::findByName(const string & name) const
+{
+	for (auto &entity : contains)
+	{
+		if (entity->name == name)
+		{
+			return entity;
+		}
+	}
+	return NULL;
+}
+
 void Entity::Update()
 {
 }

@@ -32,6 +32,13 @@ void Room::Look() const
 			if(!descrip.empty()) cout <<descrip<< endl;
 		}
 	}
+	for (auto &entity : contains)
+	{
+		if (entity->getType() == ITEM)
+		{
+			cout<< entity->description << endl;
+		}
+	}
 }
 
 Exit* Room::GetExit(const string & dir) const

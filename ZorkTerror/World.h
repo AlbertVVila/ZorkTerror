@@ -1,8 +1,8 @@
 #include <vector>
 #include "globals.h"
+#include "Player.h"
 using namespace std;
 class Entity;
-class Player;
 
 class World
 {

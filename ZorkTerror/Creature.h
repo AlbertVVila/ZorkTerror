@@ -1,6 +1,9 @@
 #pragma once
 #include "Entity.h"
 #include "Room.h"
+#include "Item.h"
+#include "Container.h"
+#include "Readable.h"
 class Creature :
 	public Entity
 {
