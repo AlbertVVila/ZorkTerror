@@ -35,7 +35,11 @@ void Player::Go(const vector<string>& args)
 	{
 		cout << WRONG_DIRECTION << endl;
 	}
-	else
+	else if (exit->isHidden || exit->isLocked)
+	{
+		cout << WRONG_DIRECTION << endl;
+		cout << exit->hint << endl;
+	}else
 	{
 		ChangeParent(exit->getDestination((Room*)parent));
 		parent->Look();
@@ -59,6 +63,15 @@ void Player::Take(const vector<string>& args)
 		{
 			item->ChangeParent(this);
 			cout << ITEM_TAKEN << endl;
+			if (item->trigger != NULL && args[0] == item->triggerCommand)
+			{
+				cout << item->triggerAction << endl;
+				if (item->trigger->type == EXIT)
+				{
+					Exit * exit = (Exit*)item->trigger;
+					exit->isHidden = false; 
+				}
+			}
 		}
 		break;
 	default:
@@ -120,8 +133,9 @@ void Player::Read(const vector<string>& args) const
 	switch (args.size())
 	{
 	case 2:
-		item = (Readable *)GetRoom()->findByName(args[1]);
+		item = (Readable *)GetRoom()->findEveryWhere(args[1]);
 		if (item == NULL) cout << ITEM_NOTFOUND << endl;
+		else if (((Item*)parent)->itemtype != NULL && ((Item*)parent)->itemstate == CLOSED) cout << CONTAINER_CLOSED << endl;
 		else if (item->itemtype != READABLE) cout << ITEM_NOTREADABLE << endl;
 		else cout << item->text << endl;
 		break;
@@ -244,3 +258,52 @@ void Player::Reveal()
 		cout << REVEALED << endl;
 	}
 }
+
+void Player::Unlock(const vector<string>& args) const
+{
+	switch (args.size())
+	{
+	case 4:
+		Exit *lockedExit = (Exit*)GetRoom()->findByName(args[1]);
+		if (lockedExit == NULL) cout << EXIT_LOCKED_NOTFOUND << endl;
+		else if (lockedExit->type != EXIT) cout << ENTITY_NOTUNLOCKABLE << endl;
+		else if (!lockedExit->isLocked) cout << EXIT_NOTLOCKED << endl;
+		else
+		{
+			if (args[2] == "with")
+			{
+				Item *unlocker = (Item*)this->findByName(args[3]);
+				if (unlocker == NULL || unlocker->trigger != lockedExit) cout << UNLOCKER_NOTFOUND << endl;
+				else
+				{
+					lockedExit->isLocked = false;
+					cout << unlocker->triggerAction << endl;
+				}
+			}
+		}
+		break;
+	}
+}
+
+void Player::Move(const vector<string>& args) const
+{
+	Item *item = (Item*)GetRoom()->findEveryWhere(args[1]);
+	if (item == NULL) cout << ITEM_NOTFOUND << endl;
+	else if (item->type!= ITEM)
+	{
+		cout << ENTITY_NOTMOVABLE << endl;
+	}
+	else if (item->trigger == NULL)
+	{
+		cout << MOVING_HAS_NOEFFECT << endl;
+	}
+	else if (item->triggerCommand == "move")
+	{
+		if ((item->trigger)->type == EXIT)
+		{
+			Exit * exit = (Exit*)item->trigger;
+			exit->isHidden = false;
+		}
+		cout << item->triggerAction << endl;
+	}
+} 

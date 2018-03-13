@@ -28,6 +28,14 @@
 #define ITEM_DROPPED "Ítem tirado."
 #define ITEM_ISCLOSED "Primero hay que abrir el contenedor."
 #define ITEM_ALREADY_TAKEN "¡Ya llevas este ítem encima!"
+
+#define EXIT_LOCKED_NOTFOUND "No encuentro lo que quieres desbloquear."
+#define ENTITY_NOTUNLOCKABLE "¿A que te refieres con desbloquear esto?"
+#define ENTITY_NOTMOVABLE ""
+
+#define EXIT_NOTLOCKED "¡Esta salida no está bloqueada!"
+#define UNLOCKER_NOTFOUND "¡No tienes el ítem necesario para desbloquear!"
+
 #define CONTAINER_CLOSED "No puedes coger ese ítem ya que está en un contenedor cerrado."
 
 #define WRONG_DIRECTION "No se puede ir en esa dirección."
@@ -37,6 +45,7 @@
 #define ALREADY_REVEALED "No estás escondido, no se que intentas."
 #define REVEALED "Has salido de tu escondite, ve con cuidado."
 
+#define MOVING_HAS_NOEFFECT "Movido."
 using namespace std;
 enum direction
 {

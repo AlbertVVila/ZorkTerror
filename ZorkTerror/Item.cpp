@@ -17,3 +17,10 @@ Item::Item(const string & name, const string & description, Entity * parent):
 Item::~Item()
 {
 }
+
+void Item::setTrigger(Entity * entity, const string &triggerAction, const string &triggerCommand)
+{
+	this->trigger = entity;
+	this->triggerAction = triggerAction;
+	this->triggerCommand = triggerCommand;
+}

@@ -2,7 +2,8 @@
 #include "Exit.h"
 #include "Room.h"
 
-Exit::Exit(const string & name, const string &dSource, const string &dDest,Room *source, Room * destination, const direction & dirSource, const direction &dirDest):
+Exit::Exit(const string & name, const string &dSource, const string &dDest,Room *source, Room * destination, const direction & dirSource, const direction &dirDest,
+	const bool &isHidden, const string &hint, const bool &isLocked, const bool &isOneWay):
 	Entity(name,"",(Entity*) source)
 {
 	this->source = source;
@@ -11,6 +12,10 @@ Exit::Exit(const string & name, const string &dSource, const string &dDest,Room 
 	this->dirDest = dirDest;
 	this->descriptionSource = dSource;
 	this->descriptionDest = dDest;
+	this->isHidden = isHidden;
+	this->isLocked = isLocked;
+	this->isOneWay = isOneWay;
+	this->hint = hint;
 	type = EXIT;
 
 	this->destination->contains.push_back(this);

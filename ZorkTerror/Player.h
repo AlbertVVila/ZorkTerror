@@ -22,6 +22,8 @@ public:
 	void Turn(const vector<string> &args) const;
 	void Hide();
 	void Reveal();
+	void Unlock(const vector<string> &args) const;
+	void Move(const vector<string> &args) const;
 
 	bool isHiding=false;
 };

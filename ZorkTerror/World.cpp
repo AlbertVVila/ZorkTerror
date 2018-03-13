@@ -22,6 +22,8 @@ World::World()
 		", con una partida de ajedrez a medias.", "Debajo del billar parece un buen sitio, te quedas allí en silencio.");
 	Room *biblio = new Room("Biblioteca", "Parece una biblioteca, hay una estanteria muy grande con muchos libros, algunos estan por el suelo.");
 	Room *out = new Room("Salida", "¡Has salido de la casa, eres libre!¡Corre Forest, corre!");
+	Room *desvan = new Room("Desván", "Es un desván lleno de polvo.");
+
 	//AddRooms
 	entities.push_back(bedroom);
 	entities.push_back(corridor);
@@ -34,13 +36,15 @@ World::World()
 	Exit *exit1 = new Exit("Escaleras","Las escaleras llevan al piso de arriba, estan muy oscuras.",
 		"Hay unas escaleras que bajan, que llevan a la penumbra, cuidado que no te coma un grue.",
 		corridor, livingRoom, DOWN, UP);
-	Exit *exit2 = new Exit("Puerta", "","",corridor, gameRoom, EAST,WEST);
-	Exit *exit3 = new Exit("Estanteria", "", "Al oeste del pasillo hay un armario muy grande.", corridor, biblio, WEST, EAST);
+	Exit *exit2 = new Exit("Puerta", "","Al este hay una puerta entreabierta.",corridor, gameRoom, EAST,WEST);
+	Exit *exit3 = new Exit("Estanteria", "Al este hay la entrada secreta de la biblioteca.", "Al oeste hay la entrada secreta de la biblioteca.", corridor, biblio, WEST, EAST,
+		true, "Al oeste del pasillo hay un armario muy grande.");
 	Exit *exit4 = new Exit("Puerta","Al sur de la habitación hay una puerta entreabierta.",
 		"",corridor, bedroom, NORTH, SOUTH);
-	Exit *exit5 = new Exit("Puerta de la casa","Al este hay una puerta que parece la de entrada a la casa", "",livingRoom, out, EAST, WEST);
+	Exit *exit5 = new Exit("puerta","", "¡La puerta de salida está desbloqueada!",livingRoom, out, EAST, WEST,
+		false, "Al este hay una puerta que parece la de entrada a la casa, está cerrada con llave.",true);
 	Exit *exit6 = new Exit("Cocina", "Al oeste se puede ver una cocina.", "Al este vemos el sofa de la sala de estar.", kitchen, livingRoom, EAST, WEST);
-
+	Exit *exit7 = new Exit("Desván", "Por las escaleras vuelves a la sala de juegos.", "Hay las escaleras que llevan al desvan.", gameRoom, desvan, UP, DOWN , true,"");
 
 	entities.push_back(exit1);
 	entities.push_back(exit2);
@@ -51,15 +55,33 @@ World::World()
 
 	//AddItems
 
-	Readable *mailBox = new Readable("Carta", "Hay una pequeña carta en el borde de la cama.", bedroom, "¡Bienvenido al Zork Terror!\nTendrás "
+	Readable *mailBox = new Readable("carta", "Hay una pequeña carta en el borde de la cama.", bedroom, "¡Bienvenido al Zork Terror!\nTendrás "
 	"que intentar escapar de esta casa sin que te coma el horrible monstruo que acecha en la oscuridad...");
-	Container *baul = new Container("Baul", "En la esquina de la habitación hay un baúl.", bedroom);
-	Lightable *lamp = new Lightable("Lamp", "Hay una lámpara en la mesita al lado de la cama.", bedroom);
+	Readable *book = new Readable("book", "En el armario hay un libro, la biblia.", corridor, "¿Enserio te quieres poner a leer la biblia ahora?");
+	book->setTrigger(exit3, "Al coger el libro, el armario se mueve y revela una entrada secreta a otra sala.","take");
+
+	Item *exitKey = new Item("key", "Hay una llave en el suelo.",livingRoom);
+	exitKey->setTrigger(exit5, "¡La cerradura encaja y desbloqueas la puerta!", "unlock");
+
+	Item *painting = new Item("cuadro", "Hay un cuadro muy grande colgado en la pared, parece que de detrás del cuadro emana una corriente de aire.", gameRoom);
+	painting->setTrigger(exit7, "Mueves el cuadro y aparecen unas escaleras sombrías.", "move");
+
+	Container *baul = new Container("baul", "En la esquina de la habitación hay un baúl.", bedroom);
+	Lightable *lamp = new Lightable("lamp", "Hay una lámpara en la mesita al lado de la cama.", bedroom);
+	
+	Item *rug = new Item("alfombra", "Hay una alfombra en el medio de la sala.", biblio);
+
 	entities.push_back(mailBox);
+	entities.push_back(book);
 	entities.push_back(baul);
 	entities.push_back(lamp);
+	entities.push_back(exitKey);
+	entities.push_back(rug);
+
 	//Create player
- 	player = new Player("Player", "¡Eres muy valiente y no temes la oscuridad!", bedroom);
+ 	
+	player = new Player("Player", "¡Eres muy valiente y no temes la oscuridad!", bedroom);
+	
 	entities.push_back(player);
 }
 
@@ -118,6 +140,10 @@ bool World::GetInput(const vector<string>& args)
 		{
 			player->Close(args);
 		}
+		else if (args[0] == "move")
+		{
+			player->Move(args);
+		}
 		else understand = false;
 		break;
 	case 3:
@@ -131,6 +157,10 @@ bool World::GetInput(const vector<string>& args)
 		if (args[0] == "put")
 		{
 			player->Put(args);
+		}
+		else if(args[0] == "unlock")
+		{
+			player->Unlock(args);
 		}
 		else understand = false;
 		break;

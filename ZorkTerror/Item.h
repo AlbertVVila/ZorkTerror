@@ -9,7 +9,11 @@ public:
 	Item(const string &name, const string &description, Entity* parent);
 	~Item();
 
+	Entity *trigger=NULL;
+	string triggerAction="", triggerCommand = "";
 	Itemtype itemtype;
 	ItemState itemstate;
+
+	void setTrigger(Entity* entity, const string &triggerAction, const string &triggerCommand);
 };
 

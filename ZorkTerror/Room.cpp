@@ -29,8 +29,15 @@ void Room::Look() const
 		if (entity->getType() == EXIT)
 		{
 			Exit *ex = (Exit*) entity;
-			string descrip = ex->GetDescription(this);
-			if(!descrip.empty()) cout <<descrip<< endl;
+			if (ex->isHidden || ex->isLocked)
+			{
+				if(!ex->hint.empty()) cout << ex->hint << endl;
+			}
+			else
+			{
+				string descrip = ex->GetDescription(this);
+				if (!descrip.empty()) cout << descrip << endl;
+			}
 		}
 	}
 	for (auto &entity : contains)
