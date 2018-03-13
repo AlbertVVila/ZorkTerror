@@ -39,7 +39,13 @@ void Player::Go(const vector<string>& args)
 	{
 		cout << WRONG_DIRECTION << endl;
 		cout << exit->hint << endl;
-	}else
+	}
+	else if (exit->exitState == CLOSED)
+	{
+		cout << EXIT_ISCLOSED << endl;
+		cout << exit->hint << endl;
+	}
+	else
 	{
 		ChangeParent(exit->getDestination((Room*)parent));
 		parent->Look();
@@ -134,28 +140,70 @@ void Player::Read(const vector<string>& args) const
 	{
 	case 2:
 		item = (Readable *)GetRoom()->findEveryWhere(args[1]);
-		if (item == NULL) cout << ITEM_NOTFOUND << endl;
-		else if (((Item*)parent)->itemtype != NULL && ((Item*)parent)->itemstate == CLOSED) cout << CONTAINER_CLOSED << endl;
-		else if (item->itemtype != READABLE) cout << ITEM_NOTREADABLE << endl;
-		else cout << item->text << endl;
+		if (item == NULL)
+		{
+			cout << ITEM_NOTFOUND << endl;
+		}
+		else if (((Item*)parent)->itemtype != NULL && ((Item*)parent)->itemstate == CLOSED)
+		{
+			cout << CONTAINER_CLOSED << endl;
+		}
+		else if (item->itemtype != READABLE)
+		{
+			cout << ITEM_NOTREADABLE << endl;
+		}
+		else
+		{
+			cout << item->text << endl;
+		}
 		break;
 	}
 }
 
 void Player::Open(const vector<string>& args) const
 {
-	Item *item;
+	Entity *entity;
 	switch (args.size())
 	{
 	case 2:
-		item = (Item *)GetRoom()->findByName(args[1]);
-		if (item == NULL) cout << ITEM_NOTFOUND << endl;
-		else if (item->itemstate == OPENED) cout << ITEM_ALREADY_OPENED << endl;
-		else if (item->itemstate == NONE) cout << ITEM_NONE_STATE << endl;
-		else if (item->itemstate == CLOSED)
+		entity = GetRoom()->findByName(args[1]);
+		if (entity == NULL)
 		{
-			cout << ITEM_OPENED << endl;
-			item->itemstate = OPENED;
+			cout << ENTITY_NOTFOUND << endl;
+		}
+		else if (entity->type == ROOM)
+		{ //es podria fer refactor i enviar a la clase corresponent en ves de que el player ho faci tot
+			Exit *ex= (Exit *) entity;
+			if (ex->exitState == OPENED)
+			{
+				cout << EXIT_ALREADY_OPENED << endl;
+			}
+			else if (ex->exitState == NONE)
+			{
+				cout << EXIT_NOT_OPENABLE << endl;
+			}
+			else if (ex->exitState == CLOSED)
+			{
+				ex->exitState = OPENED;
+				cout << EXIT_OPENED << endl;
+			}
+		}
+		else if (entity->type == ITEM)
+		{
+			Item *item = (Item *) entity;
+			if (item->itemstate == OPENED)
+			{
+				cout << ITEM_ALREADY_OPENED << endl;
+			}
+			else if (item->itemstate == NONE)
+			{
+				cout << ITEM_NONE_STATE << endl;
+			}
+			else if (item->itemstate == CLOSED)
+			{
+				cout << ITEM_OPENED << endl;
+				item->itemstate = OPENED;
+			}
 		}
 		break;
 	}
@@ -163,18 +211,48 @@ void Player::Open(const vector<string>& args) const
 
 void Player::Close(const vector<string>& args) const
 {
-	Item *item;
+	Entity *entity;
 	switch (args.size())
 	{
 	case 2:
-		item = (Item *)GetRoom()->findByName(args[1]);
-		if (item == NULL) cout << ITEM_NOTFOUND << endl;
-		else if (item->itemstate == CLOSED) cout << ITEM_ALREADY_CLOSED << endl;
-		else if (item->itemstate == NONE) cout << ITEM_NONE_STATE << endl;
-		else if (item->itemstate == OPENED)
+		entity = GetRoom()->findByName(args[1]);
+		if (entity == NULL)
 		{
-			cout << ITEM_CLOSED << endl;
-			item->itemstate = CLOSED;
+			cout << ENTITY_NOTFOUND << endl;
+		}
+		else if (entity->type == ROOM)
+		{
+			Exit *ex = (Exit *)entity;
+			if (ex->exitState == CLOSED)
+			{
+				cout << EXIT_ALREADY_CLOSED << endl;
+			}
+			else if (ex->exitState == NONE)
+			{
+				cout << EXIT_NOT_CLOSABLE << endl;
+			}
+			else if (ex->exitState == OPENED)
+			{
+				ex->exitState = CLOSED;
+				cout << EXIT_OPENED << endl;
+			}
+		}
+		else if (entity->type == ITEM)
+		{
+			Item *item = (Item *)entity;
+			if (item->itemstate == CLOSED)
+			{
+				cout << ITEM_ALREADY_CLOSED << endl;
+			}
+			else if (item->itemstate == NONE)
+			{
+				cout << ITEM_NONE_STATE << endl;
+			}
+			else if (item->itemstate == OPENED)
+			{
+				cout << ITEM_CLOSED << endl;
+				item->itemstate = CLOSED;
+			}
 		}
 		break;
 	}
@@ -190,7 +268,10 @@ void Player::Inventory() const
 			cout << entity->name << endl;
 		}
 	}
-	else cout << EMPTY_INVENTORY << endl;
+	else
+	{
+		cout << EMPTY_INVENTORY << endl;
+	}
 }
 
 void Player::Turn(const vector<string>& args) const
@@ -202,9 +283,18 @@ void Player::Turn(const vector<string>& args) const
 		if (args[1] == "on")
 		{
 			item = (Lightable*)this->findByName(args[2]); //mirar a zork com funciona
-			if (item == NULL) cout << ITEM_NOTFOUND << endl;
-			else if (item->itemtype != LIGHTABLE) cout << ITEM_NOT_LIGHTABLE << endl;
-			else if (item->itemswitch == ON) cout << ITEM_ALREADY_ON << endl;	
+			if (item == NULL)
+			{
+				cout << ITEM_NOTFOUND << endl;
+			}
+			else if (item->itemtype != LIGHTABLE)
+			{
+				cout << ITEM_NOT_LIGHTABLE << endl;
+			}
+			else if (item->itemswitch == ON)
+			{
+				cout << ITEM_ALREADY_ON << endl;
+			}
 			else if (item->itemswitch == OFF)
 			{
 				item->itemswitch = ON;
@@ -214,9 +304,18 @@ void Player::Turn(const vector<string>& args) const
 		else if (args[1] == "off")
 		{
 			item = (Lightable *)this->findByName(args[2]); //mirar a zork com funciona
-			if (item == NULL) cout << ITEM_NOTFOUND << endl;
-			else if (item->itemtype != LIGHTABLE) cout << ITEM_NOT_LIGHTABLE << endl;
-			else if (item->itemswitch == OFF) cout << ITEM_ALREADY_OFF << endl;
+			if (item == NULL)
+			{
+				cout << ITEM_NOTFOUND << endl;
+			}
+			else if (item->itemtype != LIGHTABLE)
+			{
+				cout << ITEM_NOT_LIGHTABLE << endl;
+			}
+			else if (item->itemswitch == OFF)
+			{
+				cout << ITEM_ALREADY_OFF << endl;
+			}
 			else if (item->itemswitch == ON)
 			{
 				item->itemswitch = OFF;

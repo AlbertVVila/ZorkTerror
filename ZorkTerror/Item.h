@@ -12,7 +12,7 @@ public:
 	Entity *trigger=NULL;
 	string triggerAction="", triggerCommand = "";
 	Itemtype itemtype;
-	ItemState itemstate;
+	State itemstate;
 
 	void setTrigger(Entity* entity, const string &triggerAction, const string &triggerCommand);
 };

@@ -94,79 +94,95 @@ bool World::GetInput(const vector<string>& args)
 {
 
 	bool understand = true;
-	switch (args.size())
+	if (player->isHiding && 
+		(args[0] == "take"
+		|| args[0] == "go"
+		|| args[0] == "move"
+		|| args[0] == "open"
+		|| args[0] == "close"
+		|| args[0] == "put"
+		|| args[0] == "unlock"
+		|| args[0] == "read"
+		|| args[0] == "turn"))
 	{
-	case 1:
-		if (args[0] == "look")
+		cout << PLAYER_HIDING << endl;
+	}
+	else
+	{
+		switch (args.size())
 		{
-			player->Look(args);
+		case 1:
+			if (args[0] == "look")
+			{
+				player->Look(args);
+			}
+			else if (args[0] == "inventory")
+			{
+				player->Inventory();
+			}
+			else if (args[0] == "hide")
+			{
+				player->Hide();
+			}
+			else if (args[0] == "reveal")
+			{
+				player->Reveal();
+			}
+			else understand = false;
+			break;
+		case 2:
+			if (args[0] == "go")
+			{
+				player->Go(args);
+			}
+			else if (args[0] == "take")
+			{
+				player->Take(args);
+			}
+			else if (args[0] == "drop")
+			{
+				player->Drop(args);
+			}
+			else if (args[0] == "read")
+			{
+				player->Read(args);
+			}
+			else if (args[0] == "open")
+			{
+				player->Open(args);
+			}
+			else if (args[0] == "close")
+			{
+				player->Close(args);
+			}
+			else if (args[0] == "move")
+			{
+				player->Move(args);
+			}
+			else understand = false;
+			break;
+		case 3:
+			if (args[0] == "turn")
+			{
+				player->Turn(args);
+			}
+			else understand = false;
+			break;
+		case 4:
+			if (args[0] == "put")
+			{
+				player->Put(args);
+			}
+			else if (args[0] == "unlock")
+			{
+				player->Unlock(args);
+			}
+			else understand = false;
+			break;
+		default:
+			understand = false;
+			break;
 		}
-		else if (args[0] == "inventory")
-		{
-			player->Inventory();
-		}
-		else if (args[0] == "hide")
-		{
-			player->Hide();
-		}
-		else if (args[0] == "reveal")
-		{
-			player->Reveal();
-		}
-		else understand = false;
-		break;
-	case 2:
-		if (args[0] == "go")
-		{
-			player->Go(args);
-		}
-		else if (args[0] == "take")
-		{
-			player->Take(args);
-		}
-		else if (args[0] == "drop")
-		{
-			player->Drop(args);
-		}
-		else if (args[0] == "read")
-		{
-			player->Read(args);
-		}
-		else if (args[0] == "open")
-		{
-			player->Open(args);
-		}
-		else if (args[0] == "close")
-		{
-			player->Close(args);
-		}
-		else if (args[0] == "move")
-		{
-			player->Move(args);
-		}
-		else understand = false;
-		break;
-	case 3:
-		if (args[0] == "turn")
-		{
-			player->Turn(args);
-		}
-		else understand = false;
-		break;
-	case 4:
-		if (args[0] == "put")
-		{
-			player->Put(args);
-		}
-		else if(args[0] == "unlock")
-		{
-			player->Unlock(args);
-		}
-		else understand = false;
-		break;
-	default:
-		understand = false;
-		break;
 	}
 	return understand;
 }

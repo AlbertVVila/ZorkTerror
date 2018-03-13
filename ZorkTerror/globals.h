@@ -9,7 +9,6 @@
 #define ITEM_NOTCONTAINABLE "¡No puedes meter esto en este item!"
 #define ITEM_NOTTAKEABLE "¡No puedes coger este ítem!"
 #define ITEM_NOTFOUND_ININVENTORY "¡No tienes este ítem en tu inventario!"
-#define CONTAINER_NOTFOUND "¡No existe ese contenedor!"
 #define ITEM_PUT "Hecho."
 #define ITEM_NOTREADABLE "¿Cómo pretendes leer este ítem?"
 #define ITEM_ALREADY_OPENED "¡Este ítem ya está abierto!"
@@ -17,8 +16,6 @@
 #define ITEM_NONE_STATE "No entiendo como quieres abrir esto."
 #define ITEM_OPENED "Contenedor abierto."
 #define ITEM_CLOSED "Contenedor cerrado."
-#define INVENTORY "Inventario:"
-#define EMPTY_INVENTORY "Inventario vacio."
 #define ITEM_ALREADY_ON "¡Ya está encendido!"
 #define ITEM_ALREADY_OFF "¡Ya está apagado!"
 #define ITEM_ON "Y la luz se hizo."
@@ -30,12 +27,24 @@
 #define ITEM_ALREADY_TAKEN "¡Ya llevas este ítem encima!"
 
 #define EXIT_LOCKED_NOTFOUND "No encuentro lo que quieres desbloquear."
-#define ENTITY_NOTUNLOCKABLE "¿A que te refieres con desbloquear esto?"
-#define ENTITY_NOTMOVABLE ""
-
+#define EXIT_ISCLOSED "La salida está cerrada, tienes que abrirla primero."
 #define EXIT_NOTLOCKED "¡Esta salida no está bloqueada!"
+#define EXIT_ALREADY_CLOSED "¡La salida ya está cerrada!"
+#define EXIT_ALREADY_OPENED "¡La salida ya está abierta!"
+#define EXIT_NOT_CLOSABLE "¡Esto no se puede cerrar!"
+#define EXIT_NOT_OPENABLE "¡Esto no se puede abrir!"
+#define EXIT_CLOSED "¡Hecho!"
+#define EXIT_OPENED "¡Hecho!"
+
+
+
+#define ENTITY_NOTUNLOCKABLE "¿A que te refieres con desbloquear esto?"
+#define ENTITY_NOTMOVABLE "¿Cómo lo pretendes mover?"
+#define ENTITY_NOTFOUND "No se a que te refieres."
+
 #define UNLOCKER_NOTFOUND "¡No tienes el ítem necesario para desbloquear!"
 
+#define CONTAINER_NOTFOUND "¡No existe ese contenedor!"
 #define CONTAINER_CLOSED "No puedes coger ese ítem ya que está en un contenedor cerrado."
 
 #define WRONG_DIRECTION "No se puede ir en esa dirección."
@@ -45,7 +54,12 @@
 #define ALREADY_REVEALED "No estás escondido, no se que intentas."
 #define REVEALED "Has salido de tu escondite, ve con cuidado."
 
+#define INVENTORY "Inventario:"
+#define EMPTY_INVENTORY "Inventario vacio."
+
 #define MOVING_HAS_NOEFFECT "Movido."
+
+#define PLAYER_HIDING "Estás escondido y no puedes realizar esta acción."
 using namespace std;
 enum direction
 {
@@ -60,7 +74,7 @@ enum Itemtype
 	COMMON, CONTAINER, READABLE, WEAPON, LIGHTABLE
 };
 
-enum ItemState
+enum State
 {
 	OPENED,CLOSED,NONE
 };
