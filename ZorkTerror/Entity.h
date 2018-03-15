@@ -2,7 +2,6 @@
 #include <string>
 #include <list>
 #include "globals.h"
-using namespace std;
 
 class Entity
 {
@@ -22,6 +21,7 @@ public:
 	void ChangeParent(Entity* newParent);
 	Entity* findByName(const string &name) const;
 	Entity* findEveryWhere(const string &name) const;
+	list<Entity*> findbyItemType(Itemtype type) const;
 
 	virtual void Update();
 private:
@@ -30,4 +30,5 @@ private:
 protected:
 
 };
+
 

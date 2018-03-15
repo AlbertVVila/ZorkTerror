@@ -1,5 +1,6 @@
 #pragma once
 #include "Item.h"
+
 class Readable :
 	public Item
 {
@@ -8,4 +9,3 @@ public:
 	~Readable();
 	string text;
 };
-

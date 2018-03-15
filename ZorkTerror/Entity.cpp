@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Entity.h"
-
+#include "Item.h"
 
 Entity::Entity()
 {
@@ -74,6 +74,21 @@ Entity * Entity::findEveryWhere(const string & name) const //recursivament busca
 		}
 	}
 	return NULL;
+}
+
+list<Entity *> Entity::findbyItemType(Itemtype type) const
+{
+	list<Entity*> items;
+	for (auto &entity : contains)
+	{
+		if (entity->type == ITEM && ((Item *)entity)->itemtype == type)
+		{
+			items.push_front(entity);
+		}
+		list<Entity*> childItems = entity->findbyItemType(type);
+		items.merge(childItems);
+	}
+	return items;
 }
 
 void Entity::Update()

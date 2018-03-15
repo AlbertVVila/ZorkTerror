@@ -1,11 +1,6 @@
 #include "stdafx.h"
 #include "Item.h"
 
-
-Item::Item()
-{
-}
-
 Item::Item(const string & name, const string & description, Entity * parent, Itemtype itemtype):
 	Entity(name,description,parent)
 {

@@ -46,6 +46,10 @@
 
 #define CONTAINER_NOTFOUND "¡No existe ese contenedor!"
 #define CONTAINER_CLOSED "No puedes coger ese ítem ya que está en un contenedor cerrado."
+#define CONTAINER_NOTLOCKED "No está bloqueado."
+#define CONTAINER_UNLOCKED "¡Y se abrió!"
+#define CONTAINER_LOCKED "Está bloqueado con código."
+#define WRONG_CODE "Este código no funciona."
 
 #define WRONG_DIRECTION "No se puede ir en esa dirección."
 
@@ -61,6 +65,8 @@
 #define MOVING_NOEFFECT_INVENTORY "¿Cuál es el objetivo de mover algo que llevas encima?"
 
 #define PLAYER_HIDING "Estás escondido y no puedes realizar esta acción."
+
+#define BLACK_ROOM "No ves absolutamente nada, está muy oscuro."
 using namespace std;
 enum direction
 {
@@ -86,6 +92,6 @@ enum ItemSwitch
 void ParseInput(string input, vector<string> &args);
 direction ConvertToDir(const string &dir);
 string ConvertToString(const direction &dir);
+
+
 #endif // __Globals__
-
-

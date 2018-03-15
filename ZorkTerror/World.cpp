@@ -8,6 +8,7 @@
 #include "Item.h"
 #include "Container.h"
 #include "Readable.h"
+
 World::World()
 {
 	//AddRooms
@@ -133,7 +134,7 @@ World::World()
 	entities.push_back(billar);
 
 	//Roof items
-	Container *safe = new Container("caja", "Hay una pequeña caja fuerte que requiere una combinación de 3 números para abrirse.", desvan);
+	Container *safe = new Container("caja", "Hay una pequeña caja fuerte que requiere una combinación de 3 números para abrirse.", desvan, true, "666");
 	Item *exitKey3 = new Item("key", "¡Hay una llave!", safe);
 	exitKey3->setTrigger(exit5, "¡La cerradura encaja y desbloqueas la puerta!", "unlock");
 	Item *doll = new Item("muneca", "Una muñeca estrambótica nos está mirando a los ojos, espero que no se mueva.",desvan);
@@ -175,7 +176,7 @@ World::World()
 	entities.push_back(player);
 
 	//AddGrue
-	grue = new Grue("Grue", "Un monstruo temible te comió", sotano);
+	//grue = new Grue("Grue", "Un monstruo temible te comió", sotano);
 }
 
 
@@ -258,6 +259,10 @@ bool World::GetInput(const vector<string>& args)
 			if (args[0] == "turn")
 			{
 				player->Turn(args);
+			}
+			else if(args[0] == "unlock")
+			{
+				player->Unlock(args);
 			}
 			else understand = false;
 			break;

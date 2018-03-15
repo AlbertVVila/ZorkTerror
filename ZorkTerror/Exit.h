@@ -2,6 +2,7 @@
 #include "Entity.h"
 
 class Room;
+
 class Exit :
 	public Entity
 {
@@ -22,4 +23,3 @@ public:
 private:
 
 };
-

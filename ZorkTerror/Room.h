@@ -2,19 +2,22 @@
 #include "Entity.h"
 #include "Exit.h"
 #include "globals.h"
+
 class Room :
 	public Entity
 {
 public:
-	Room();
-	Room(const string &name, const string &description, const string &hidingSpot= "");
-	~Room();
+	Room(const string &name, const string &description, const string &hidingSpot= "", const bool &isLighted = false);
 
 	void Look() const;
 	Exit* GetExit(const string &dir) const;
+	bool LightsOn() const;
 
 	string hidingSpot;
+	bool isLighted;
+
 private:
 
 };
+
 

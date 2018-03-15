@@ -1,9 +1,10 @@
-#include <vector>
+#pragma once
 #include "globals.h"
-#include "Player.h"
-#include "Grue.h"
-using namespace std;
+
+class Grue;
+class Player;
 class Entity;
+
 
 class World
 {
@@ -17,4 +18,5 @@ private:
 	Player *player;
 	Grue *grue;
 };
+
 

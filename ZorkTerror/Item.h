@@ -1,11 +1,11 @@
 #pragma once
 #include "Entity.h"
 #include "Room.h"
+
 class Item :
 	public Entity
 {
 public:
-	Item();
 	Item(const string &name, const string &description, Entity* parent, Itemtype itemtype = COMMON);
 	~Item();
 
@@ -16,4 +16,3 @@ public:
 
 	void setTrigger(Entity* entity, const string &triggerAction, const string &triggerCommand);
 };
-

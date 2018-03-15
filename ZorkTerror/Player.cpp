@@ -1,9 +1,6 @@
 #include "stdafx.h"
 #include "Player.h"
 
-
-
-
 Player::Player(const string & name, const string & description, Room * room):
 	Creature(name,description,room)
 {
@@ -54,7 +51,6 @@ void Player::Go(const vector<string>& args)
 void Player::Take(const vector<string>& args)
 {
 	Item * item;
-	Entity * p;
 	switch(args.size())
 	{
 	case 2:
@@ -221,6 +217,10 @@ void Player::Open(const vector<string>& args) const
 			{
 				cout << ITEM_NONE_STATE << endl;
 			}
+			else if (item->itemtype == CONTAINER && ((Container *)item)->isLocked)
+			{
+				cout << CONTAINER_LOCKED << endl;
+			}
 			else if (item->itemstate == CLOSED)
 			{
 				cout << ITEM_OPENED << endl;
@@ -321,6 +321,7 @@ void Player::Turn(const vector<string>& args) const
 			{
 				item->itemswitch = ON;
 				cout << ITEM_ON << endl;
+				GetRoom()->isLighted = true;
 			}
 		}
 		else if (args[1] == "off")
@@ -342,6 +343,11 @@ void Player::Turn(const vector<string>& args) const
 			{
 				item->itemswitch = OFF;
 				cout << ITEM_OFF << endl;
+				Room *room = GetRoom();
+				if (!room->LightsOn())
+				{
+					room->isLighted = false;
+				}
 			}
 		}
 		break;
@@ -384,6 +390,29 @@ void Player::Unlock(const vector<string>& args) const
 {
 	switch (args.size())
 	{
+
+	case 3:
+	{
+		Container * c = (Container *)GetRoom()->findByName(args[1]);
+		if (c == NULL || c->itemtype != CONTAINER)
+		{
+			cout << CONTAINER_NOTFOUND << endl;
+		}
+		else if (!c->isLocked)
+		{
+			cout << CONTAINER_NOTLOCKED << endl;
+		}
+		else if (args[2] == c->unlockCode)
+		{
+			c->isLocked = false;
+			cout << CONTAINER_UNLOCKED << endl;
+		}
+		else
+		{
+			cout << WRONG_CODE << endl;
+		}
+		break;
+	}
 	case 4:
 		Exit *lockedExit = (Exit*)GetRoom()->findByName(args[1]);
 		if (lockedExit == NULL)
@@ -440,4 +469,19 @@ void Player::Move(const vector<string>& args) const
 	{
 		cout << MOVING_NOEFFECT_INVENTORY << endl;
 	}
-} 
+}
+void Player::ChangeParent(Entity * newParent)
+{
+	Room *leavingRoom = GetRoom();
+	Entity::ChangeParent(newParent);
+	Room *newRoom = GetRoom();
+	if (!leavingRoom->LightsOn())
+	{
+		leavingRoom->isLighted = false;
+	}
+	if (newRoom->LightsOn())
+	{
+		newRoom->isLighted = true;
+	}
+}
+
