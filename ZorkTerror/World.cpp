@@ -8,6 +8,7 @@
 #include "Item.h"
 #include "Container.h"
 #include "Readable.h"
+#include "Grue.h"
 
 World::World()
 {
@@ -22,7 +23,7 @@ World::World()
 		"que pueda servir como arma. En el techo hay el número 6 escrito con lo que parece ser un líquido rojizo.","Te escondes dentro de la nevera.");
 	Room *gameRoom = new Room("Sala de juegos", "Estás en la sala de juegos.", "Debajo del billar parece un buen sitio, te quedas allí en silencio.");
 	Room *biblio = new Room("Biblioteca", "Parece una biblioteca, hay una estanteria muy grande con muchos libros, algunos estan por el suelo.");
-	Room *out = new Room("Salida", "¡Has salido de la casa, eres libre!¡Corre Forest, corre!");
+	Room *out = new Room("Salida", "¡Has salido de la casa, eres libre!¡Corre Forest, corre! ¡Has Ganado!");
 	Room *desvan = new Room("Desván", "Es un desván lleno de polvo.");
 	Room *sotano = new Room("Sótano", "Estás en el sótano, hay un 6 escrito en una pared. Oyes alguién detrás de ti, acaba de subir las escaleras.");
 
@@ -47,7 +48,8 @@ World::World()
 	Exit *exit4 = new Exit("puerta","Al sur de la habitación hay una puerta entreabierta.",
 		"",corridor, bedroom, NORTH, SOUTH, false,"La puerta de salida está cerrada", false, OPENED);
 	Exit *exit5 = new Exit("puerta2","", "¡La puerta de salida está desbloqueada!",livingRoom, out, EAST, WEST,
-		false, "Al este hay una puerta que parece la de entrada a la casa, está cerrada, se ven 4 cerraduras, parece que se necesitaran 4 llaves para abrirla.",true);
+		false, "Al este hay una puerta que parece la de entrada a la casa,"
+		" está cerrada, se ven 4 cerraduras, parece que se necesitaran 4 llaves para abrirla.",true, CLOSED, true);
 	Exit *exit6 = new Exit("Cocina", "Al oeste se puede ver una cocina.", "Al este vemos el sofa de la sala de estar.", kitchen, livingRoom, EAST, WEST);
 	Exit *exit7 = new Exit("Desván", "Por las escaleras vuelves a la sala de juegos.", "Hay las escaleras que llevan al desvan.", gameRoom, desvan, UP, DOWN , true,"");
 	Exit *exit8 = new Exit("trampilla", "", "Hay una trampilla que no se ve muy bien donde lleva. Parece que si se baja no se puede volver a subir por el mismo sitio.", biblio, sotano, DOWN, UP,
@@ -113,7 +115,7 @@ World::World()
 	Item *cadaver = new Item("cadaver", "¡Hay un cadaver de una mujer, descomponiéndose!", nevera, STATIC);
 	Readable *nota = new Readable("nota", "Una nota está enganchada a la nevera" , kitchen, "Encienda la luz solo cuando sea estrictamente necesario, sino él te verá...");
 	Item *tornavis = new Item("tornavis", "Parece ser que hay un tornavís dentro.", cajon);
-	tornavis->setTrigger(exit9, "Con el tornavis y un poco de fuerza bruta, se desbloqueda la puerta.", "unlock");
+	tornavis->setTrigger(exit9, "Con el tornavis y un poco de fuerza bruta, se desbloquea la puerta.", "unlock");
 
 	entities.push_back(nevera);
 	entities.push_back(mesa2);
@@ -171,24 +173,24 @@ World::World()
 	entities.push_back(revista);
 
 	//Add player	
-	player = new Player("Player", "¡Eres muy valiente y no temes la oscuridad!", bedroom);
+	player = new Player(PLAYER_NAME, "¡Eres muy valiente y no temes la oscuridad!", bedroom);
 	
 	entities.push_back(player);
 
 	//AddGrue
-	//grue = new Grue("Grue", "Un monstruo temible te comió", sotano);
+	grue = new Grue("Grue", "¡HAY ALGUIEN AQUI!", sotano);
 }
 
-
-World::~World()               
-{
-}
 
 bool World::GetInput(const vector<string>& args)
 {
 
 	bool understand = true;
-	if (player->isHiding && 
+	if (player->isDead)
+	{
+		cout << PLAYER_DEAD << endl;
+	}
+	else if (player->isHiding && 
 		(args[0] == "take"
 		|| args[0] == "go"
 		|| args[0] == "move"
@@ -282,6 +284,10 @@ bool World::GetInput(const vector<string>& args)
 			break;
 		}
 	}
+	//turno para Grue
+	grue->Look();
+	grue->Go();
+
 	return understand;
 }
 

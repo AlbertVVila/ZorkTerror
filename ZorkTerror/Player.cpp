@@ -200,6 +200,10 @@ void Player::Open(const vector<string>& args) const
 			{
 				cout << EXIT_NOT_OPENABLE << endl;
 			}
+			else if (ex->isLocked)
+			{
+				cout << EXIT_LOCKED << endl;
+			}
 			else if (ex->exitState == CLOSED)
 			{
 				ex->exitState = OPENED;
@@ -431,12 +435,29 @@ void Player::Unlock(const vector<string>& args) const
 		{
 			if (args[2] == "with")
 			{
-				Item *unlocker = (Item*)this->findByName(args[3]);
-				if (unlocker == NULL || unlocker->trigger != lockedExit) cout << UNLOCKER_NOTFOUND << endl;
+				if (args[3] == "keys")
+				{
+					list<Entity*> keys = this->findAllByName("key");
+					if (keys.size() == NB_KEYS)
+					{
+						lockedExit->isLocked = false;
+						cout <<	EXIT_DOOR_OPENED << endl;
+					}
+					else
+					{
+						cout << NOT_ENOUGH_KEYS << endl;
+					}
+
+				}
 				else
 				{
-					lockedExit->isLocked = false;
-					cout << unlocker->triggerAction << endl;
+					Item *unlocker = (Item*)this->findByName(args[3]);
+					if (unlocker == NULL || unlocker->trigger != lockedExit) cout << UNLOCKER_NOTFOUND << endl;
+					else
+					{
+						lockedExit->isLocked = false;
+						cout << unlocker->triggerAction << endl;
+					}
 				}
 			}
 		}

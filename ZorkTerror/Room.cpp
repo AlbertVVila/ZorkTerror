@@ -42,6 +42,14 @@ void Room::Look() const
 				cout << entity->description << endl;
 			}
 		}
+
+		for (auto &entity : contains)
+		{
+			if (entity->getType() == GRUE)
+			{
+				cout << entity->description << endl;
+			}
+		}
 	}
 	else
 	{
@@ -63,6 +71,22 @@ Exit* Room::GetExit(const string & dir) const
 		}
 	}
 	return NULL;
+}
+
+list<Exit*> Room::GetPassableExits() const
+{
+	list<Exit*> exits;
+	for (auto &entity : contains)
+	{
+		if (entity->type == EXIT 
+			&& !((Exit *)entity)->isHidden 
+			&& !((Exit *)entity)->isLocked
+			&& !((Exit *)entity)->getDestination(this)->isLighted)
+		{
+			exits.push_back((Exit *)entity);
+		}
+	}
+	return exits;
 }
 
 bool Room::LightsOn() const

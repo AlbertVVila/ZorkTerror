@@ -11,7 +11,6 @@ class World
 
 public:
 	World();
-	~World();
 	bool GetInput(const vector<string> &args);
 private:
 	vector<Entity*> entities;

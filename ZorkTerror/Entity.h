@@ -22,6 +22,7 @@ public:
 	Entity* findByName(const string &name) const;
 	Entity* findEveryWhere(const string &name) const;
 	list<Entity*> findbyItemType(Itemtype type) const;
+	list<Entity*> findAllByName(const string &name) const;
 
 	virtual void Update();
 private:

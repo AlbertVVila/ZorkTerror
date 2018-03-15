@@ -91,6 +91,19 @@ list<Entity *> Entity::findbyItemType(Itemtype type) const
 	return items;
 }
 
+list<Entity*> Entity::findAllByName(const string & name) const
+{
+	list<Entity*> entities;
+	for (auto &entity : contains)
+	{
+		if (entity->name == name)
+		{
+			entities.push_back(entity);
+		}
+	}
+	return entities;
+}
+
 void Entity::Update()
 {
 }

@@ -11,6 +11,8 @@ public:
 
 	void Look() const;
 	Exit* GetExit(const string &dir) const;
+	list<Exit*> GetPassableExits() const;
+
 	bool LightsOn() const;
 
 	string hidingSpot;

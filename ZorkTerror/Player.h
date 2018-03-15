@@ -24,5 +24,7 @@ public:
 	void Unlock(const vector<string> &args) const;
 	void Move(const vector<string> &args) const;
 	void ChangeParent(Entity* newParent);
+
 	bool isHiding=false;
+	bool isDead = false;
 };

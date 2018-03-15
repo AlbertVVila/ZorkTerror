@@ -35,8 +35,8 @@
 #define EXIT_NOT_OPENABLE "¡Esto no se puede abrir!"
 #define EXIT_CLOSED "¡Hecho!"
 #define EXIT_OPENED "¡Hecho!"
-
-
+#define EXIT_LOCKED "No puedes abrir esta salida ya que está bloqueada."
+#define EXIT_DOOR_OPENED "¡Has desbloqueado la puerta principal! ¡¡Huye!!"
 
 #define ENTITY_NOTUNLOCKABLE "¿A que te refieres con desbloquear esto?"
 #define ENTITY_NOTMOVABLE "¿Cómo lo pretendes mover?"
@@ -65,8 +65,16 @@
 #define MOVING_NOEFFECT_INVENTORY "¿Cuál es el objetivo de mover algo que llevas encima?"
 
 #define PLAYER_HIDING "Estás escondido y no puedes realizar esta acción."
+#define PLAYER_NAME "player"
+#define PLAYER_DEAD "Lo siento, estás muerto. ¡Gracias por jugar! Para salir escribe exit."
 
 #define BLACK_ROOM "No ves absolutamente nada, está muy oscuro."
+
+#define GRUE_ATE_PLAYER "¡¡Se te comió el Grue!!"
+
+#define NB_KEYS 4
+#define NOT_ENOUGH_KEYS "No tienes todas las llaves necesarias para desbloquear la puerta."
+
 using namespace std;
 enum direction
 {
