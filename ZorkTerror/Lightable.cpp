@@ -3,9 +3,8 @@
 
 
 Lightable::Lightable(const string & name, const string & description, Entity * parent):
-	Item(name,description,parent)
+	Item(name,description,parent,LIGHTABLE)
 {
-	itemtype = LIGHTABLE;
 	this->itemswitch = OFF;
 }
 

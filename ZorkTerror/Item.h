@@ -6,7 +6,7 @@ class Item :
 {
 public:
 	Item();
-	Item(const string &name, const string &description, Entity* parent);
+	Item(const string &name, const string &description, Entity* parent, Itemtype itemtype = COMMON);
 	~Item();
 
 	Entity *trigger=NULL;

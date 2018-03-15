@@ -1,6 +1,7 @@
 #include <vector>
 #include "globals.h"
 #include "Player.h"
+#include "Grue.h"
 using namespace std;
 class Entity;
 
@@ -14,5 +15,6 @@ public:
 private:
 	vector<Entity*> entities;
 	Player *player;
+	Grue *grue;
 };
 

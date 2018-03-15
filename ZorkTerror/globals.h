@@ -13,7 +13,7 @@
 #define ITEM_NOTREADABLE "¿Cómo pretendes leer este ítem?"
 #define ITEM_ALREADY_OPENED "¡Este ítem ya está abierto!"
 #define ITEM_ALREADY_CLOSED "¡Este ítem ya está cerrado!"
-#define ITEM_NONE_STATE "No entiendo como quieres abrir esto."
+#define ITEM_NONE_STATE "Ya me dirás tú como lo haces."
 #define ITEM_OPENED "Contenedor abierto."
 #define ITEM_CLOSED "Contenedor cerrado."
 #define ITEM_ALREADY_ON "¡Ya está encendido!"
@@ -58,6 +58,7 @@
 #define EMPTY_INVENTORY "Inventario vacio."
 
 #define MOVING_HAS_NOEFFECT "Movido."
+#define MOVING_NOEFFECT_INVENTORY "¿Cuál es el objetivo de mover algo que llevas encima?"
 
 #define PLAYER_HIDING "Estás escondido y no puedes realizar esta acción."
 using namespace std;
@@ -71,7 +72,7 @@ enum Entitytype
 };
 enum Itemtype
 {
-	COMMON, CONTAINER, READABLE, WEAPON, LIGHTABLE
+	COMMON, CONTAINER, READABLE, WEAPON, LIGHTABLE, STATIC, FIX
 };
 
 enum State

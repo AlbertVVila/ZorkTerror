@@ -43,7 +43,6 @@ void Player::Go(const vector<string>& args)
 	else if (exit->exitState == CLOSED)
 	{
 		cout << EXIT_ISCLOSED << endl;
-		cout << exit->hint << endl;
 	}
 	else
 	{
@@ -60,16 +59,31 @@ void Player::Take(const vector<string>& args)
 	{
 	case 2:
 		item = (Item*) GetRoom()->findEveryWhere(args[1]);
-		p = item->parent;
-		if (item == NULL) cout << ITEM_NOTFOUND << endl;
-		else if (p == this) cout << ITEM_ALREADY_TAKEN << endl;
-		else if (((Item*)p)->itemtype!=NULL && ((Item*)p)->itemstate == CLOSED) cout << CONTAINER_CLOSED << endl;
-		else if (item->itemtype == CONTAINER) cout << ITEM_NOTTAKEABLE << endl;
+		if (item == NULL)
+		{
+			cout << ITEM_NOTFOUND << endl;
+		}
+		else if (item->parent == this)
+		{
+			cout << ITEM_ALREADY_TAKEN << endl;
+		}
+		else if (((Item*)item->parent)->itemtype != NULL && ((Item*)item->parent)->itemstate == CLOSED)
+		{
+			cout << CONTAINER_CLOSED << endl;
+		}
+		else if ( item->type != ITEM
+			||item->itemtype == CONTAINER || item->itemtype == STATIC || item->itemtype == FIX
+			|| (item->itemtype == LIGHTABLE && item->name!= "linterna") //la linterna es el único lightable que se puede coger
+			|| (item->itemtype == READABLE && item->name == "libros"))  //los libros en general son readable pero no se pueden coger
+		{
+			cout << ITEM_NOTTAKEABLE << endl;
+		}
 		else
 		{
 			item->ChangeParent(this);
 			cout << ITEM_TAKEN << endl;
-			if (item->trigger != NULL && args[0] == item->triggerCommand)
+			if (item->trigger != NULL &&
+				(args[0] == item->triggerCommand || item->triggerCommand == "move"))
 			{
 				cout << item->triggerAction << endl;
 				if (item->trigger->type == EXIT)
@@ -87,19 +101,27 @@ void Player::Take(const vector<string>& args)
 
 void Player::Drop(const vector<string>& args)
 {
-	Item * item;
+	Entity * entity;
 	switch (args.size())
 	{
 	case 2:
-		item = (Item*)this->findByName(args[1]);
-		if (item != NULL)
+		entity = this->findByName(args[1]);
+		if (entity == NULL)
 		{
-			item->ChangeParent(GetRoom());
-			cout << ITEM_DROPPED << endl;
+			entity = GetRoom()->findEveryWhere(args[1]);
+			if (entity != NULL)
+			{
+				cout << ITEM_NOTFOUND_ININVENTORY << endl;
+			}
+			else
+			{
+				cout << ITEM_NOTFOUND << endl;
+			}
 		}
-		else
+		else if (entity->type == ITEM)
 		{
-			cout << ITEM_NOTFOUND << endl;
+			entity->ChangeParent(GetRoom());
+			cout << ITEM_DROPPED << endl;
 		}
 		break;
 	default:
@@ -171,7 +193,7 @@ void Player::Open(const vector<string>& args) const
 		{
 			cout << ENTITY_NOTFOUND << endl;
 		}
-		else if (entity->type == ROOM)
+		else if (entity->type == EXIT)
 		{ //es podria fer refactor i enviar a la clase corresponent en ves de que el player ho faci tot
 			Exit *ex= (Exit *) entity;
 			if (ex->exitState == OPENED)
@@ -220,7 +242,7 @@ void Player::Close(const vector<string>& args) const
 		{
 			cout << ENTITY_NOTFOUND << endl;
 		}
-		else if (entity->type == ROOM)
+		else if (entity->type == EXIT)
 		{
 			Exit *ex = (Exit *)entity;
 			if (ex->exitState == CLOSED)
@@ -282,7 +304,7 @@ void Player::Turn(const vector<string>& args) const
 	case 3:
 		if (args[1] == "on")
 		{
-			item = (Lightable*)this->findByName(args[2]); //mirar a zork com funciona
+			item = (Lightable*)GetRoom()->findEveryWhere(args[2]);
 			if (item == NULL)
 			{
 				cout << ITEM_NOTFOUND << endl;
@@ -303,7 +325,7 @@ void Player::Turn(const vector<string>& args) const
 		}
 		else if (args[1] == "off")
 		{
-			item = (Lightable *)this->findByName(args[2]); //mirar a zork com funciona
+			item = (Lightable *)GetRoom()->findEveryWhere(args[2]); //mirar a zork com funciona
 			if (item == NULL)
 			{
 				cout << ITEM_NOTFOUND << endl;
@@ -364,9 +386,18 @@ void Player::Unlock(const vector<string>& args) const
 	{
 	case 4:
 		Exit *lockedExit = (Exit*)GetRoom()->findByName(args[1]);
-		if (lockedExit == NULL) cout << EXIT_LOCKED_NOTFOUND << endl;
-		else if (lockedExit->type != EXIT) cout << ENTITY_NOTUNLOCKABLE << endl;
-		else if (!lockedExit->isLocked) cout << EXIT_NOTLOCKED << endl;
+		if (lockedExit == NULL)
+		{
+			cout << EXIT_LOCKED_NOTFOUND << endl;
+		}
+		else if (lockedExit->type != EXIT)
+		{
+			cout << ENTITY_NOTUNLOCKABLE << endl;
+		}
+		else if (!lockedExit->isLocked)
+		{
+			cout << EXIT_NOTLOCKED << endl;
+		}
 		else
 		{
 			if (args[2] == "with")
@@ -388,15 +419,15 @@ void Player::Move(const vector<string>& args) const
 {
 	Item *item = (Item*)GetRoom()->findEveryWhere(args[1]);
 	if (item == NULL) cout << ITEM_NOTFOUND << endl;
-	else if (item->type!= ITEM)
+	else if (item->type!= ITEM || item->itemtype == FIX)
 	{
 		cout << ENTITY_NOTMOVABLE << endl;
 	}
-	else if (item->trigger == NULL)
+	else if (item->trigger == NULL && item->parent != this)
 	{
 		cout << MOVING_HAS_NOEFFECT << endl;
 	}
-	else if (item->triggerCommand == "move")
+	else if (item->triggerCommand == args[0] || item->triggerCommand == "take")
 	{
 		if ((item->trigger)->type == EXIT)
 		{
@@ -404,5 +435,9 @@ void Player::Move(const vector<string>& args) const
 			exit->isHidden = false;
 		}
 		cout << item->triggerAction << endl;
+	}
+	else if (item->parent == this)
+	{
+		cout << MOVING_NOEFFECT_INVENTORY << endl;
 	}
 } 

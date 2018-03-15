@@ -42,7 +42,7 @@ void Room::Look() const
 	}
 	for (auto &entity : contains)
 	{
-		if (entity->getType() == ITEM)
+		if (entity->getType() == ITEM && !entity->description.empty())
 		{
 			cout<< entity->description << endl;
 		}

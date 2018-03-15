@@ -6,11 +6,12 @@ Item::Item()
 {
 }
 
-Item::Item(const string & name, const string & description, Entity * parent):
+Item::Item(const string & name, const string & description, Entity * parent, Itemtype itemtype):
 	Entity(name,description,parent)
 {
 	type = ITEM;
 	if (itemstate == NULL) itemstate = NONE;
+	this->itemtype = itemtype;
 }
 
 

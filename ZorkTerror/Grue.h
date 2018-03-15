@@ -4,7 +4,7 @@ class Grue :
 	public Creature
 {
 public:
-	Grue();
+	Grue(const string &name, const string &description, Room *room);
 	~Grue();
 };
 
