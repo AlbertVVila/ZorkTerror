@@ -45,18 +45,28 @@ void Grue::Go()
 			make_move_iterator(end(l)) };
 		if (exits.size() > 0)
 		{
-			int r = exits.size() == 1 ? 0 : rand() % (exits.size() - 1);
-			if (exits[r]->exitState = CLOSED) exits[r]->exitState = OPENED;
+			int r = exits.size() == 1 ? 0 : rand() % (exits.size());
+			if (exits[r]->exitState == CLOSED) exits[r]->exitState = OPENED;
+			
+			Room* PreviousRoom = this->GetRoom();
 			ChangeParent(exits[r]->getDestination((Room*)parent));
 			Entity *entity = GetRoom()->findByName(PLAYER_NAME);
 			if (entity != NULL && entity->parent == this->parent)
 			{
 				cout << GRUE_IN_PLAYERROOM << endl;
 			}
+			if (entity == NULL)
+			{
+				entity = PreviousRoom->findByName(PLAYER_NAME);
+				if (entity != NULL && entity->parent == PreviousRoom)
+				{
+					cout << GRUE_LEFT_PLAYERROOM << endl;
+				}
+			}
 		}
 	}
 
-	cout << "GRUE está en " << this->GetRoom()->name << endl;
+	//cout << "GRUE está en " << this->GetRoom()->name << endl;
 }
 
 void Grue::EatPlayer(Player * player)

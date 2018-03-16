@@ -6,7 +6,6 @@
 class Entity
 {
 public:
-	Entity();
 	Entity(string name, string description, Entity *parent);
 	~Entity();
 	
@@ -24,7 +23,6 @@ public:
 	list<Entity*> findbyItemType(Itemtype type) const;
 	list<Entity*> findAllByName(const string &name) const;
 
-	virtual void Update();
 private:
 
 

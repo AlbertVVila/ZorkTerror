@@ -2,10 +2,6 @@
 #include "Entity.h"
 #include "Item.h"
 
-Entity::Entity()
-{
-}
-
 Entity::Entity(string name, string description, Entity *parent)
 {
 	type = ENTITY;
@@ -102,8 +98,4 @@ list<Entity*> Entity::findAllByName(const string & name) const
 		}
 	}
 	return entities;
-}
-
-void Entity::Update()
-{
 }

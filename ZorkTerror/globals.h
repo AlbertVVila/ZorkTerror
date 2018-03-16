@@ -74,11 +74,14 @@
 
 #define GRUE_ATE_PLAYER "¡¡Se te comió el Grue!!\n¡Has perdido!"
 #define GRUE_NOTSEEN_PLAYER "¡Vaya suerte! ¡El Grue no te ha visto!"
-#define GRUE_IN_PLAYERROOM "¡Cuidado! ¡El Grue está en la misma sala que tu!"
+#define GRUE_IN_PLAYERROOM "¡Cuidado! ¡El Grue acaba de entrar en la sala dónde estás!"
+#define GRUE_LEFT_PLAYERROOM "¡El Grue se ha ido de la habitación!"
+
 #define NB_KEYS 4
 #define NOT_ENOUGH_KEYS "No tienes todas las llaves necesarias para desbloquear la puerta."
 
 #define WAITING "El tiempo pasa.."
+
 using namespace std;
 enum direction
 {
