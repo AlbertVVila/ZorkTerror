@@ -20,7 +20,7 @@ World::World()
 	Room *livingRoom = new Room("Sala de estar", "Estás en la sala de estar. Todas las ventanas están bloqueadas, además casi no entra luz de fuera, "
 		"parece que está anocheciendo.","Te escondes detrás del sofá, esperemos que nadie mire aquí.");
 	Room *kitchen = new Room("Cocina","Estás en la cocina. Está todo desordenado. No hay ningún cuchillo ni ningún instrumento"
-		"que pueda servir como arma. En el techo hay el número 6 escrito con lo que parece ser un líquido rojizo.","Te escondes dentro de la nevera.");
+		" que pueda servir como arma. En el techo hay el número 6 escrito con lo que parece ser un líquido rojizo.","Te escondes dentro de la nevera.");
 	Room *gameRoom = new Room("Sala de juegos", "Estás en la sala de juegos.", "Debajo del billar parece un buen sitio, te quedas allí en silencio.");
 	Room *biblio = new Room("Biblioteca", "Parece una biblioteca, hay una estanteria muy grande con muchos libros, algunos estan por el suelo.");
 	Room *out = new Room("out", "¡Has salido de la casa, eres libre!¡Corre Forest, corre! ¡Has Ganado!");
@@ -52,9 +52,9 @@ World::World()
 		" está cerrada, se ven 4 cerraduras, parece que se necesitaran 4 llaves para abrirla.",true, CLOSED, true);
 	Exit *exit6 = new Exit("Cocina", "Al oeste se puede ver una cocina.", "Al este vemos el sofá de la sala de estar.", kitchen, livingRoom, EAST, WEST);
 	Exit *exit7 = new Exit("Desván", "Por las escaleras vuelves a la sala de juegos.", "Hay las escaleras que llevan al desván.", gameRoom, desvan, UP, DOWN , true,"");
-	Exit *exit8 = new Exit("trampilla", "", "Hay una trampilla que no se ve muy bien donde lleva. Parece que si se baja no se puede volver a subir por el mismo sitio.", biblio, sotano, DOWN, UP,
+	Exit *exit8 = new Exit("trampilla", "", "Hay una trampilla que no se ve muy bien donde lleva.\nParece que si se baja no se puede volver a subir por el mismo sitio.", biblio, sotano, DOWN, UP,
 		true, "El suelo parece hueco, como si hubiera alguna cosa debajo.",false, CLOSED, true);
-	Exit *exit9 = new Exit("puertasotano", "Las escaleras suben y vuelven a la sala de estar.", "En el sur una puerta lleva al sótano.",
+	Exit *exit9 = new Exit("puertasotano", "Las escaleras suben y vuelven a la sala de estar.", "Una puerta baja al sótano.",
 		livingRoom, sotano, DOWN, UP, false, "La puerta que va al sótano está atascada.", true,CLOSED);
 
 	entities.push_back(exit1);
@@ -83,7 +83,7 @@ World::World()
 
 	//Corridor items
 	Item *armario = new Item("armario", "", corridor, FIX);	
-	Readable *biblia = new Readable("biblia", "En el armario hay un libro, la biblia.", corridor, "¿Enserio te quieres poner a leer la biblia ahora?", "Hay una sagrada biblia" );
+	Readable *biblia = new Readable("biblia", "En el armario hay un libro, la biblia.", corridor, "¿Enserio te quieres poner a leer la biblia ahora?", "Hay una sagrada biblia." );
 	biblia->setTrigger(exit3, "Al desplazar el libro, el armario se mueve y revela una entrada secreta a otra sala.","coger");
 
 	entities.push_back(armario);
@@ -109,8 +109,8 @@ World::World()
 
 	//Kitchen items
 	Container *nevera = new Container("nevera", "Hay una nevera bastante grande en una esquina de la cocina.", kitchen);
-	Item *mesa2 = new Item("mesa", "Hay una mesa muy grande en el centro de la sala", kitchen, STATIC);
-	Container *cajon = new Container("cajon", "Hay varios cajones bloqueados, pero hay uno que parece que se pueda abrir", kitchen);
+	Item *mesa2 = new Item("mesa", "Hay una mesa muy grande en el centro de la sala.", kitchen, STATIC);
+	Container *cajon = new Container("cajon", "Hay varios cajones bloqueados, pero hay uno que parece que se pueda abrir.", kitchen);
 	Item *exitKey2 = new Item("llave", "¡Hay una llave en la mesa!", kitchen, COMMON, "¡Mi llave, mi tesoro...!");
 	exitKey2->setTrigger(exit5, "¡La cerradura encaja y desbloqueas la puerta!", "desbloquear");
 	Item *cadaver = new Item("cadaver", "¡Hay un cadáver de una mujer, descomponiéndose!", nevera, STATIC);
@@ -127,7 +127,7 @@ World::World()
 
 	//GameRoom items
 
-	Item *painting = new Item("cuadro", "Hay un cuadro muy grande colgado en la pared, parece que de detrás del cuadro emana una corriente de aire.", gameRoom);
+	Item *painting = new Item("cuadro", "Hay un cuadro muy grande colgado en la pared, parece que de detrás del cuadro emana una corriente de aire.", gameRoom, COMMON, "¿Que hace un cuadro en el suelo? No se juega con el arte.");
 	painting->setTrigger(exit7, "Al desplazar el cuadro aparecen unas escaleras sombrías.", "mover");
 	Item *tablero = new Item("tablero", "Hay un tablero de ajedrez con una partida a medias.", gameRoom, COMMON, "Hay un tablero, que lástima, la partida se echó a perder...");
 	Item *billar = new Item("billar", "Hay un billar pero no hay ninguna bola, que lástima, era un gran momento para echar una partidita.", gameRoom, STATIC);
@@ -137,13 +137,13 @@ World::World()
 	entities.push_back(billar);
 
 	//Roof items
-	Container *safe = new Container("cajafuerte", "Hay una pequeña caja fuerte que requiere una combinación de 3 números para abrirse.", desvan, true, "666");
-	Item *exitKey3 = new Item("llave", "¡Hay una llave!", safe, COMMON,"Hay una llave para dominarlos a todooos");
+	Container *safe = new Container("cajafuerte", "Hay una pequeña caja fuerte que requiere una combinación de 3 números para desbloquearse.", desvan, true, "666");
+	Item *exitKey3 = new Item("llave", "¡Hay una llave!", safe, COMMON,"Hay una llave para dominarlos a todooos.");
 	exitKey3->setTrigger(exit5, "¡La cerradura encaja y desbloqueas la puerta!", "desbloquear");
 	Item *doll = new Item("muneca", "Una muñeca estrambótica nos está mirando a los ojos, espero que no se mueva.",desvan, COMMON,
-		"Una muñeca parece que te esté mirando todo el rato");
+		"Una muñeca parece que te esté mirando todo el rato.");
 	Item *ventanal = new Item("ventanal", "Un ventanal da a la calle, la verdad es que no se ve casi nada con la oscurida que reina fuera."
-		"El ventanal es demasiado pequeño como para salir.", desvan, FIX);
+		" El ventanal es demasiado pequeño como para salir.", desvan, FIX);
 
 	entities.push_back(exitKey3);
 	entities.push_back(doll);
@@ -155,7 +155,7 @@ World::World()
 	exitKey4->setTrigger(exit5, "¡La cerradura encaja y desbloqueas la puerta!", "desbloquear");
 
 	Item *ventana = new Item("ventana", "Hay una ventana abierta, pero está bloqueada y no tiene pinta que se vaya a abrir más.",sotano, FIX);
-	Item *rata = new Item("rata", "Ahhh, que asco, hay una rata muerta en una esquina.", sotano);
+	Item *rata = new Item("rata", "Ahhh, que asco, hay una rata muerta en una esquina.", sotano, COMMON, "RIP rata.");
 	
 	entities.push_back(exitKey4);
 	entities.push_back(ventana);
@@ -165,7 +165,7 @@ World::World()
 	Item *sofa = new Item("sofa", "Una sofa de mimbre se encuentra en el lateral de la sala.",livingRoom, STATIC);
 	Item *tv = new Item("television","En frente del sofa tenemos una televisión.",livingRoom, STATIC);
 	Item *mesita = new Item("mesita","Al lado de la televisión hay una mesita llena de polvo.",livingRoom, STATIC);
-	Readable *revista = new Readable("revista","Hay una revista sobre monstruos nocturnos sobre la mesita", livingRoom, 
+	Readable *revista = new Readable("revista","Hay una revista de monstruos nocturnos sobre la mesita", livingRoom, 
 		"El Grue es un monstruo que vive en la oscuridad. Con garras afiladas y unos colmillos enormes, muy poca gente ha visto un Grue y "
 		"ha vivido para contarlo...", "Hay una revista.");
 
@@ -181,7 +181,7 @@ World::World()
 
 	//AddGrue
 	grue = new Grue("Grue", "¡HAY ALGUIEN AQUI! ", sotano);
-
+	entities.push_back(grue);
 	//init
 	player->Look();
 }
@@ -309,7 +309,7 @@ bool World::GetInput(const vector<string>& args)
 	//turno para Grue
 	if (!player->isDead || player->won)
 	{
-		//grue->Look();
+		grue->Look();
 		grue->Go();
 	}
 

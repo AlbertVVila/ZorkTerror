@@ -77,7 +77,7 @@ void Player::Take(const vector<string>& args)
 	{
 		item->ChangeParent(this);
 		cout << ITEM_TAKEN << endl;
-		if (item->trigger != NULL &&
+		if (item->trigger != NULL && ((Exit*)item->trigger)->isHidden &&
 			(args[0] == item->triggerCommand || item->triggerCommand == "mover"))
 		{
 			cout << item->triggerAction << endl;
@@ -451,7 +451,8 @@ void Player::Move(const vector<string>& args) const
 	{
 		cout << ENTITY_NOTMOVABLE << endl;
 	}
-	else if (item->trigger == NULL && item->parent != this)
+	else if ((item->trigger == NULL || !((Exit*)item->trigger)->isHidden)
+		&& item->parent != this)
 	{
 		cout << MOVING_HAS_NOEFFECT << endl;
 	}

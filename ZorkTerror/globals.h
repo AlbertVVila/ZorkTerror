@@ -47,7 +47,7 @@
 #define CONTAINER_NOTFOUND "¡No existe ese contenedor!"
 #define CONTAINER_CLOSED "No puedes coger ese ítem ya que está en un contenedor cerrado."
 #define CONTAINER_NOTLOCKED "No está bloqueado."
-#define CONTAINER_UNLOCKED "¡Y se abrió!"
+#define CONTAINER_UNLOCKED "¡Y se desbloqueó!"
 #define CONTAINER_LOCKED "Está bloqueado con código."
 #define WRONG_CODE "Este código no funciona."
 
@@ -72,7 +72,7 @@
 
 #define BLACK_ROOM "No ves absolutamente nada, está muy oscuro.\nSi te sabes de memoria donde está todo aún puedes interaccionar con la sala."
 
-#define GRUE_ATE_PLAYER "¡¡Se te comió el Grue!!"
+#define GRUE_ATE_PLAYER "¡¡Se te comió el Grue!!\n¡Has perdido!"
 #define GRUE_NOTSEEN_PLAYER "¡Vaya suerte! ¡El Grue no te ha visto!"
 #define GRUE_IN_PLAYERROOM "¡Cuidado! ¡El Grue está en la misma sala que tu!"
 #define NB_KEYS 4
