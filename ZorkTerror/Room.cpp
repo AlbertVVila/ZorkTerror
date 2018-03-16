@@ -37,9 +37,17 @@ void Room::Look() const
 		}
 		for (auto &entity : contains)
 		{
-			if (entity->getType() == ITEM && !entity->description.empty())
+			if (entity->getType() == ITEM)
 			{
-				cout << entity->description << endl;
+				Item *item = (Item *)entity;
+				if (!entity->description.empty() && !item->dropped)
+				{
+					cout << entity->description << endl;
+				}
+				else if (item->dropped)
+				{
+					cout << item->descriptionFloor << endl;
+				}
 			}
 		}
 

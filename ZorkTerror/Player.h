@@ -9,7 +9,7 @@ public:
 	Player(const string &name, const string &description, Room *room);
 	~Player();
 
-	void Look(const vector<string> &args) const;
+	void Look() const;
 	void Go(const vector<string> &args);
 	void Take(const vector<string> &args);
 	void Drop(const vector <string> &args);

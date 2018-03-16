@@ -71,10 +71,12 @@
 #define BLACK_ROOM "No ves absolutamente nada, está muy oscuro."
 
 #define GRUE_ATE_PLAYER "¡¡Se te comió el Grue!!"
-
+#define GRUE_NOTSEEN_PLAYER "¡Vaya suerte! ¡El Grue no te ha visto!"
+#define GRUE_IN_PLAYERROOM "¡Cuidado! ¡El Grue está en la misma sala que tu!"
 #define NB_KEYS 4
 #define NOT_ENOUGH_KEYS "No tienes todas las llaves necesarias para desbloquear la puerta."
 
+#define WAITING "El tiempo pasa.."
 using namespace std;
 enum direction
 {

@@ -12,16 +12,9 @@ Player::~Player()
 {
 }
 
-void Player::Look(const vector<string>& args) const
+void Player::Look() const
 {
-	switch (args.size())
-	{
-	case 1:
-		parent->Look();
-		break;
-	default:
-		break;
-	}
+	parent->Look();
 }
 
 void Player::Go(const vector<string>& args)
@@ -116,6 +109,7 @@ void Player::Drop(const vector<string>& args)
 		}
 		else if (entity->type == ITEM)
 		{
+			((Item *)entity)->dropped = true;
 			entity->ChangeParent(GetRoom());
 			cout << ITEM_DROPPED << endl;
 		}
@@ -229,6 +223,7 @@ void Player::Open(const vector<string>& args) const
 			{
 				cout << ITEM_OPENED << endl;
 				item->itemstate = OPENED;
+				item->Look();
 			}
 		}
 		break;

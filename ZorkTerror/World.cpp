@@ -71,10 +71,10 @@ World::World()
 
 	//Bedroom items
 	Readable *carta = new Readable("carta", "Hay una pequeña carta en el borde de la cama.", bedroom, "¡Bienvenido al Zork Terror!\nTendrás "
-	"que intentar escapar de esta casa sin que te coma el horrible monstruo que acecha en la oscuridad...");	
+	"que intentar escapar de esta casa sin que te coma el horrible monstruo que acecha en la oscuridad...", "Hay una carta.");	
 	Container *baul = new Container("baul", "En la esquina de la habitación hay un baúl.", bedroom);
 	Item *cama = new Item("cama", "", bedroom, STATIC);
-	Lightable *linterna = new Lightable("linterna", "Hay una linterna encima de la cama.", bedroom);
+	Lightable *linterna = new Lightable("linterna", "Hay una linterna encima de la cama.", bedroom, "¡Una linterna! Eso siempre va bien.");
 
 	entities.push_back(carta);
 	entities.push_back(baul);
@@ -83,7 +83,7 @@ World::World()
 
 	//Corridor items
 	Item *armario = new Item("armario", "", corridor, FIX);	
-	Readable *biblia = new Readable("biblia", "En el armario hay un libro, la biblia.", corridor, "¿Enserio te quieres poner a leer la biblia ahora?");
+	Readable *biblia = new Readable("biblia", "En el armario hay un libro, la biblia.", corridor, "¿Enserio te quieres poner a leer la biblia ahora?", "Hay una sagrada biblia" );
 	biblia->setTrigger(exit3, "Al desplazar el libro, el armario se mueve y revela una entrada secreta a otra sala.","take");
 
 	entities.push_back(armario);
@@ -95,7 +95,7 @@ World::World()
 	Readable *libros = new Readable("libros", "Hay muchos libros en esta biblioteca, la mayoria muy antiguos.", biblio, "Demasiados libros y demasiada pereza...");
 	Item *estanteria = new Item("estanteria", "", biblio, FIX);
 	Item *mesa = new Item("mesa", "Hay una mesa muy grande en el centro de la sala.", biblio, STATIC);
-	Item *exitKey = new Item("key", "¡Hay una llave en la mesa!", biblio);
+	Item *exitKey = new Item("key", "¡Hay una llave en la mesa!", biblio, COMMON,"¡Una llave para salir! ¡Deberia estar en mi inventario!");
 	Item *rug = new Item("alfombra", "Hay una alfombra en el medio de la sala.", biblio, STATIC);
 	rug->setTrigger(exit8, "Al desplazar la alfombra, aparece una trampilla cerrada, ¿A dónde llevará?","move");
 
@@ -110,11 +110,11 @@ World::World()
 	Container *nevera = new Container("nevera", "Hay una nevera bastante grande en una esquina de la cocina.", kitchen);
 	Item *mesa2 = new Item("mesa", "Hay una mesa muy grande en el centro de la sala", kitchen, STATIC);
 	Container *cajon = new Container("cajon", "Hay varios cajones bloqueados, pero hay uno que parece que se pueda abrir", kitchen);
-	Item *exitKey2 = new Item("key", "¡Hay una llave en la mesa!", kitchen);
+	Item *exitKey2 = new Item("key", "¡Hay una llave en la mesa!", kitchen, COMMON, "¡Mi llave, mi tesoro...!");
 	exitKey2->setTrigger(exit5, "¡La cerradura encaja y desbloqueas la puerta!", "unlock");
 	Item *cadaver = new Item("cadaver", "¡Hay un cadaver de una mujer, descomponiéndose!", nevera, STATIC);
-	Readable *nota = new Readable("nota", "Una nota está enganchada a la nevera" , kitchen, "Encienda la luz solo cuando sea estrictamente necesario, sino él te verá...");
-	Item *tornavis = new Item("tornavis", "Parece ser que hay un tornavís dentro.", cajon);
+	Readable *nota = new Readable("nota", "Una nota está enganchada a la nevera" , kitchen, "Encienda la luz solo cuando sea estrictamente necesario, sino él te verá...", "Hay una pequeña nota.");
+	Item *tornavis = new Item("tornavis", "Parece ser que hay un tornavís dentro.", cajon, COMMON, "Un tornavís, nunca se sabe cuando puede hacer falta.");
 	tornavis->setTrigger(exit9, "Con el tornavis y un poco de fuerza bruta, se desbloquea la puerta.", "unlock");
 
 	entities.push_back(nevera);
@@ -128,7 +128,7 @@ World::World()
 
 	Item *painting = new Item("cuadro", "Hay un cuadro muy grande colgado en la pared, parece que de detrás del cuadro emana una corriente de aire.", gameRoom);
 	painting->setTrigger(exit7, "Al desplazar el cuadro aparecen unas escaleras sombrías.", "move");
-	Item *tablero = new Item("tablero", "Hay un tablero de ajedrez con una partida a medias.", gameRoom);
+	Item *tablero = new Item("tablero", "Hay un tablero de ajedrez con una partida a medias.", gameRoom, COMMON, "Hay un tablero, que lástima, la partida se hechó a perder...");
 	Item *billar = new Item("billar", "Hay un billar pero no hay ninguna bola, que lástima, era un gran momento para echar una partidita.", gameRoom, STATIC);
 	
 	entities.push_back(painting);
@@ -137,9 +137,10 @@ World::World()
 
 	//Roof items
 	Container *safe = new Container("caja", "Hay una pequeña caja fuerte que requiere una combinación de 3 números para abrirse.", desvan, true, "666");
-	Item *exitKey3 = new Item("key", "¡Hay una llave!", safe);
+	Item *exitKey3 = new Item("key", "¡Hay una llave!", safe, COMMON,"Hay una llave para dominarlos a todooos");
 	exitKey3->setTrigger(exit5, "¡La cerradura encaja y desbloqueas la puerta!", "unlock");
-	Item *doll = new Item("muneca", "Una muñeca estrambótica nos está mirando a los ojos, espero que no se mueva.",desvan);
+	Item *doll = new Item("muneca", "Una muñeca estrambótica nos está mirando a los ojos, espero que no se mueva.",desvan, COMMON,
+		"Una muñeca parece que te esté mirando todo el rato");
 	Item *ventanal = new Item("ventanal", "Un ventanal da a la calle, la verdad es que no se ve casi nada con la oscurida que reina fuera."
 		"El ventanal es demasiado pequeño como para salir.", desvan, FIX);
 
@@ -165,7 +166,7 @@ World::World()
 	Item *mesita = new Item("mesita","Al lado de la televisión hay una mesita llena de polvo.",livingRoom, STATIC);
 	Readable *revista = new Readable("revista","Hay una revista sobre monstruos nocturnos sobre la mesita", livingRoom, 
 		"El Grue es un monstruo que vive en la oscuridad. Con garras afiladas y unos colmillos enormes, muy poca gente ha visto un Grue y "
-		"ha vivido para contarlo...");
+		"ha vivido para contarlo...", "Hay una revista.");
 
 	entities.push_back(sofa);
 	entities.push_back(tv);
@@ -178,7 +179,10 @@ World::World()
 	entities.push_back(player);
 
 	//AddGrue
-	grue = new Grue("Grue", "¡HAY ALGUIEN AQUI!", sotano);
+	grue = new Grue("Grue", "¡HAY ALGUIEN AQUI! ", sotano);
+
+	//init
+	player->Look();
 }
 
 
@@ -210,7 +214,7 @@ bool World::GetInput(const vector<string>& args)
 		case 1:
 			if (args[0] == "look")
 			{
-				player->Look(args);
+				player->Look();
 			}
 			else if (args[0] == "inventory")
 			{
@@ -223,6 +227,10 @@ bool World::GetInput(const vector<string>& args)
 			else if (args[0] == "reveal")
 			{
 				player->Reveal();
+			}
+			else if (args[0] == "wait")
+			{
+				cout << WAITING << endl;
 			}
 			else understand = false;
 			break;
@@ -285,8 +293,11 @@ bool World::GetInput(const vector<string>& args)
 		}
 	}
 	//turno para Grue
-	grue->Look();
-	grue->Go();
+	if (!player->isDead)
+	{
+		grue->Look();
+		grue->Go();
+	}
 
 	return understand;
 }

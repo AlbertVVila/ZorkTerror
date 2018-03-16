@@ -4,7 +4,7 @@
 Grue::Grue(const string & name, const string & description, Room *room):
 	Creature(name,description,room)
 {
-
+	type = GRUE;
 }
 
 Grue::~Grue()
@@ -21,12 +21,16 @@ void Grue::Look()
 		{
 			EatPlayer(player); //Con la luz encendida siempre te come
 		}
-		else
+		else if(!player->isHiding)
 		{
-			bool seen = rand() % 4;
+			bool seen = rand() % 4 == 0? 1:0;
 			if (seen)
 			{
 				EatPlayer(player); //Con la luz apagada 1/4 de posibilidades de que te coma
+			}
+			else
+			{
+				cout << GRUE_NOTSEEN_PLAYER << endl;
 			}
 		}
 	}
@@ -44,6 +48,11 @@ void Grue::Go()
 			int r = exits.size() == 1 ? 0 : rand() % (exits.size() - 1);
 			if (exits[r]->exitState = CLOSED) exits[r]->exitState = OPENED;
 			ChangeParent(exits[r]->getDestination((Room*)parent));
+			Entity *entity = GetRoom()->findByName(PLAYER_NAME);
+			if (entity != NULL && entity->parent == this->parent)
+			{
+				cout << GRUE_IN_PLAYERROOM << endl;
+			}
 		}
 	}
 
