@@ -38,7 +38,7 @@ void Grue::Look()
 
 void Grue::Go()
 {
-	if (rand() % 3 == 0) //CADA TURNO HAY UN 33,3% DE PROBABILIDADES DE QUE SE MUEVA
+	if (rand() % 4 == 0) //CADA TURNO HAY UN 25% DE PROBABILIDADES DE QUE SE MUEVA
 	{
 		list<Exit *> l = GetRoom()->GetPassableExits();
 		vector<Exit *> exits{ make_move_iterator(begin(l)),

@@ -166,7 +166,7 @@ World::World()
 	Item *tv = new Item("television","En frente del sofa tenemos una televisión.",livingRoom, STATIC);
 	Item *mesita = new Item("mesita","Al lado de la televisión hay una mesita llena de polvo.",livingRoom, STATIC);
 	Readable *revista = new Readable("revista","Hay una revista de monstruos nocturnos sobre la mesita", livingRoom, 
-		"El Grue es un monstruo que vive en la oscuridad. Con garras afiladas y unos colmillos enormes, muy poca gente ha visto un Grue y "
+		"El Grue es un monstruo que vive en la oscuridad y teme la luz. Con garras afiladas y unos colmillos enormes, muy poca gente ha visto un Grue y "
 		"ha vivido para contarlo...", "Hay una revista.");
 
 	entities.push_back(sofa);
