@@ -29,7 +29,7 @@ Los objetos que se tiran al suelo, siguen describiéndose si el jugador observa 
 Se pueden mover casi todos los ítems. Realmente esta acción simplemente desplaza ligeramente el objeto seleccionado. Su interés es que hay algunos items que esconden alguna cosa y al moverlos podemos averiguarlo.
 Ejemplo comanda: **mover sofa**
 * **abrir:**
-En este juego podemos abrir dos tipos de cosas diferentes. Podemos abrir puertas, que son salidas de las habitaciones, y tambíen contenedores,
+En este juego podemos abrir dos tipos de cosas diferentes. Podemos abrir puertas, que son salidas de las habitaciones, y tambíen contenedores. Cuando abres un contenedor, te muestra lo que hay dentro.
 Ejemplo comanda puerta: **abrir puertasotano**
 Ejemplo comanda contenedor: **abrir baul**
 
@@ -37,6 +37,10 @@ Ejemplo comanda contenedor: **abrir baul**
 Función contraria a la comanda abrir.
 Ejemplo: **cerrar puertajuegos**
 Ejemplo: **cerrar cajon**
+
+* **poner:**
+Pone un ítem de tu inventario en un contenedor que esté abierto.
+Ejemplo comanda: **poner carta en baul**
 
 * **desbloquear**
 Esta comanda permite desbloquear, o bien puerta bloqueadas, o bien contenedores bloqueados.
