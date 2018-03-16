@@ -15,7 +15,7 @@ void Room::Look() const
 {
 	if (this->isLighted || this->name == "Habitación principal")
 	{
-		cout << "\n" << name << endl;
+		cout << name << endl;
 		cout << description << endl;
 
 		//Exits

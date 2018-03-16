@@ -67,8 +67,10 @@
 #define PLAYER_HIDING "Estás escondido y no puedes realizar esta acción."
 #define PLAYER_NAME "player"
 #define PLAYER_DEAD "Lo siento, estás muerto. ¡Gracias por jugar! Para salir escribe exit."
+#define PLAYER_SUICIDE "Elegiste la opción de suicidarte, probablemente la mas sensata.\nEstás muerto. ¡Has perdido!"
+#define PLAYER_WON "¡Ganaste la partida, enhorabuena! Para salir escribe exit."
 
-#define BLACK_ROOM "No ves absolutamente nada, está muy oscuro."
+#define BLACK_ROOM "No ves absolutamente nada, está muy oscuro.\nSi te sabes de memoria donde está todo aún puedes interaccionar con la sala."
 
 #define GRUE_ATE_PLAYER "¡¡Se te comió el Grue!!"
 #define GRUE_NOTSEEN_PLAYER "¡Vaya suerte! ¡El Grue no te ha visto!"
@@ -99,6 +101,7 @@ enum ItemSwitch
 {
 	ON,OFF
 };
+
 void ParseInput(string input, vector<string> &args);
 direction ConvertToDir(const string &dir);
 string ConvertToString(const direction &dir);

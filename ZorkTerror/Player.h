@@ -18,7 +18,8 @@ public:
 	void Open(const vector<string> &args) const;
 	void Close(const vector<string> &args) const;
 	void Inventory() const;
-	void Turn(const vector<string> &args) const;
+	void Encender(const vector<string> &args) const;
+	void Apagar(const vector<string> &args) const;
 	void Hide();
 	void Reveal();
 	void Unlock(const vector<string> &args) const;
@@ -27,4 +28,5 @@ public:
 
 	bool isHiding=false;
 	bool isDead = false;
+	bool won = false;
 };

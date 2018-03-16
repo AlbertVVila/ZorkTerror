@@ -56,7 +56,7 @@ void Grue::Go()
 		}
 	}
 
-	cout << "GRUE está en " << this->GetRoom()->name << endl;
+	//cout << "GRUE está en " << this->GetRoom()->name << endl;
 }
 
 void Grue::EatPlayer(Player * player)
