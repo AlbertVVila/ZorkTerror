@@ -71,8 +71,11 @@ Ejemplo comanda: **revelar**
 * **esperar**
 Pasa un turno del jugador sin hacer nada.
 Ejemplo comanda: **esperar**
+* **exit**
+Cierra el juego.
+Ejemplo de comanda: **exit**
 
-## 3. Sintaxi
+## 3. Sintaxis
 La palabras que se escriben en consola deben ser **sin mayúsculas, acentos o ñ**, ya que sinó no detectará el nombre del elemento en cuestión. Si se añaden espacios en blanco al final de una comanda no funcionará.
 Para las puertas se tiene que utilizar los siguientes nombres:
 * puerta entre habitación principal y pasillo: **puertahabitacion**
@@ -98,8 +101,13 @@ Es muy importante tener en cuenta si hay luz o no la sala en la que se está. Si
 Hay una trampilla en el juego que lleva al sótano. Cuidado, ya que esa trampilla es de una sola dirección y la salida del sótano al principio está bloqueada y el jugador se puede quedar atrapado allí.
 
 ## 5. Dificultades 
+Ha habido varias dificultades en este juego:
+* La primera ha sido el hecho del tiempo, ya que quise hacer un proyecto bastante ambicioso y con el tiempo disponible resultó difícil de implementar y testear todas las situaciones posibles, así que aún hay algunas inconsistencias en el juego
+* Quise, al parsear, cambiar las palabras con tilde o ñ, pero no funcionaba el código y no tuve tiempo para mirarlo mas de cerca.
+* Referente a los ítems, tuve algunas dudas y dificultades ya que en mi juego hay mucho ítems, algunos tenian unas propiedades en común y otros no. Así que me resultó un poco complicado ver cuál era la jerarquía adecuada, así que probablemente la estructura de los ítems, con más tiempo, necesitaria un refactor para optimizar y simplificar el código.
 
 ## 6. Spoilers (como pasarse el juego)
+A continuación explicamos en detalle el contenido de cada habitación.
 ##### Habitationes:
 Aquí daremos la lista de objetos que hay en cada habitación y su utilidad en el juego.
  **Habitación principal:**
@@ -129,7 +137,7 @@ Aquí daremos la lista de objetos que hay en cada habitación y su utilidad en e
 * **alfombra**: alfombra que al mover revela una trampilla cerrada que lleva al sótano pero la trampilla solo es de un sentido.
 
 **Desván:**
-* **cajafuerte**: caja bloqueada que contiene una llave de salida. El código para desbloquearla es 666.
+* **cajafuerte**: caja bloqueada que contiene una llave de salida. El código para desbloquearla es 666. Los tres número están escritos en 3 habitaciones distintas. El jugador tiene que adivinar que esos tres números son la combinación.
 * **muñeca**: decorativo.
 * **ventanal**: decorativo.
 
@@ -153,6 +161,110 @@ Aquí daremos la lista de objetos que hay en cada habitación y su utilidad en e
 * **llave**: llave para salir de la casa.
 * **ventana**: decorativo.
 * **rata**: decorativo coleccionable.
+
+Lo ideal es liberar al **Grue** lo más tarde posible ya que nos complicará la vida.
+Aquí dos ejemplos de dos partidas, una que acaba en derrota y otra en victória. Hay que tener en cuenta que podria fallar la de victoria a veces ya que el **Grue** tiene un componente importante aleatório.
+
+**Ejemplo comandas derrota**:
+coger linterna
+
+coger carta
+
+leer carta
+
+encender linterna
+
+ir sur
+
+ir abajo
+
+ir oeste
+
+abrir cajon
+
+coger destornillador
+
+ir este
+
+desbloquear puertasotano con destornillador
+
+abrir puertasotano
+
+ir abajo
+
+**Ejemplo comandas victoria**:
+coger linterna
+
+coger carta
+
+leer carta
+
+abrir baul
+
+poner carta en baul
+
+encender linterna
+
+ir sur
+
+coger biblia
+
+leer biblia
+
+ir oeste
+
+coger llave
+
+ir este
+
+ir este
+
+coger tablero
+
+mover cuadro
+
+ir arriba
+
+desbloquear cajafuerte 666
+
+abrir cajafuerte
+
+coger llave
+
+ir abajo
+
+ir oeste
+
+ir abajo
+
+ir oeste
+
+coger llave
+
+abrir cajon
+
+coger destornillador
+
+ir este
+
+desbloquear puertasotano con destornillador
+
+abrir puertasotano
+
+apagar linterna
+
+ir abajo
+
+coger llave
+
+ir arriba
+
+desbloquear puertasalida con llaves
+
+abrir puertasalida
+
+ir este
+
 ## 7. Autor
 **Albert Val Vila** 
 Estudiante de 4rto año del grado en Ingeniería Informática en la UPC, especialidad Ingeniería del Software.
